@@ -759,26 +759,23 @@
         } catch (err) {}
       }
     };
-    const recaptureAfterSourceChange = () => {
+    const reapplyAfterTrackChange = () => {
       if (!isVkSite()) return;
-      if (mediaElement.__vibesLastCapturedSrc === (mediaElement.currentSrc || mediaElement.src || "")) {
-        reapplySpeed();
-        return;
+      const source = mediaElement.currentSrc || mediaElement.src || "";
+      if (source && mediaElement.__vibesLastCapturedSrc !== source) {
+        log("[Vibes Fast] VK source changed — keeping existing audio graph");
+        mediaElement.__vibesLastCapturedSrc = source;
       }
-      log("[Vibes Fast] VK source changed — refreshing capture state");
-      capturedMedia.delete(mediaElement);
-      const idx = capturedMediaElements.indexOf(mediaElement);
-      if (idx !== -1) capturedMediaElements.splice(idx, 1);
-      mediaElement.__vibesMode = undefined;
-      updateMediaCount();
-      updateCorsStatus();
-      captureMediaElement(mediaElement);
+      reapplySpeed();
     };
-    mediaElement.addEventListener("loadedmetadata", recaptureAfterSourceChange);
-    mediaElement.addEventListener("emptied", recaptureAfterSourceChange);
-    mediaElement.addEventListener("durationchange", reapplySpeed);
-    mediaElement.addEventListener("play", reapplySpeed);
-    mediaElement.addEventListener("playing", reapplySpeed);
+    [ "loadstart", "loadedmetadata", "durationchange", "canplay", "play", "playing" ].forEach(eventName => {
+      mediaElement.addEventListener(eventName, reapplyAfterTrackChange);
+    });
+    mediaElement.addEventListener("ended", () => {
+      [ 0, 50, 250, 1e3 ].forEach(delay => {
+        setTimeout(reapplyAfterTrackChange, delay);
+      });
+    });
   }
   function registerSpeedOnlyMode(mediaElement) {
     capturedMediaElements.push(mediaElement);
