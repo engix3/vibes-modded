@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "code": "fr",
+    "name": "Français",
+    "author": "Klarz",
+    "version": "1.3.0",
+    "_doNotTranslate": [
+      "header.appName (Vibes is the brand name)",
+      "meta.author (Klarz is the developer's name)"
+    ]
+  },
+  "header": {
+    "appName": "Vibes"
+  },
+  "promo": {
+    "tagline": "Pour Films, Emissions, Podcasts et Musique"
+  },
+  "tabs": {
+    "sliders": "Curseurs",
+    "karaoke": "Karaoke"
+  },
+  "karaoke": {
+    "underConstruction": "En construction",
+    "comingSoon": "Le mode Karaoke arrive bientot!"
+  },
+  "sliders": {
+    "fineTune": "Precision (decimales)",
+    "pitch": "Tonalite",
+    "speed": "Vitesse",
+    "reverb": "Reverb",
+    "volume": "Volume"
+  },
+  "shortcuts": {
+    "title": "Raccourcis",
+    "addShortcut": "Ajouter un raccourci",
+    "default": "Defaut",
+    "slowedDown": "Ralenti",
+    "spedUp": "Accelere",
+    "slowReverb": "Lent+Réverb",
+    "nightcore": "Nightcore"
+  },
+  "modal": {
+    "createShortcut": "Creer un raccourci",
+    "editShortcut": "Modifier le raccourci",
+    "shortcutName": "Nom du raccourci",
+    "shortcutNamePlaceholder": "Mon raccourci",
+    "chooseEmoji": "Choisir un emoji",
+    "settingsToApply": "Parametres a appliquer",
+    "cancel": "Annuler",
+    "saveShortcut": "Enregistrer",
+    "apply": "Appliquer",
+    "pass": "Ignorer",
+    "reset": "Reinitialiser",
+    "warningNeedOne": "Au moins un parametre doit etre sur Appliquer",
+    "warningDefault": "Modifie les curseurs d'abord - impossible de sauvegarder les parametres par defaut",
+    "warningDuplicate": "Existe deja sous le nom \"{name}\"",
+    "confirmDelete": "Supprimer \"{name}\" ?",
+    "confirmHideDefault": "Masquer \"{name}\" ? Tu peux restaurer les raccourcis masques via le compteur.",
+    "confirmRestoreDefaults": "Restaurer {count} raccourci(s) masque(s) ?\n\n{names}\n\nLes compteurs d'utilisation seront remis a zero."
+  },
+  "footer": {
+    "donate": "Don",
+    "premium": "Vibes+",
+    "madeWith": "Fait avec",
+    "by": "par",
+    "clickForLove": "Clique pour l'amour !"
+  },
+  "premium": {
+    "title": "Vibes+",
+    "signInText": "Connecte-toi pour accéder aux fonctionnalités premium",
+    "signInGoogle": "Se connecter avec Google",
+    "featureThemes": "Thèmes Premium",
+    "featureShortcuts": "Raccourcis Illimités",
+    "featureQuotes": "Citations Crabe Bonus",
+    "perMonth": "/mois",
+    "subscribe": "S'abonner",
+    "signOut": "Se déconnecter",
+    "thankYou": "Merci pour ton abonnement !",
+    "manage": "Gérer l'abonnement",
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite"
+  },
+  "status": {
+    "na": "N/A",
+    "media": "{count} media",
+    "noMedia": "Pas de media",
+    "detected": "Detecte",
+    "off": "Off",
+    "on": "On"
+  },
+  "settings": {
+    "theme": "Theme",
+    "themeDefault": "Defaut",
+    "language": "Langue",
+    "switchToLight": "Mode clair",
+    "switchToDark": "Mode sombre",
+    "auto": "Auto",
+    "detected": "Detecte",
+    "joinDiscord": "Rejoins notre Discord !",
+    "classicMode": "Mode classique",
+    "fineTune": "Precision",
+    "alwaysTab": "Toujours Tab"
+  },
+  "tabCapture": {
+    "title": "Capture Tab",
+    "description": "Capture l'audio direct de l'onglet.",
+    "speedNote": "La vitesse peut ne pas etre disponible en mode Capture Tab.",
+    "alwaysEnable": "Toujours activer",
+    "notNow": "Pas maintenant",
+    "enable": "Activer"
+  },
+  "noMedia": {
+    "title": "Demarrer Capture Tab?",
+    "description": "Aucun audio ou video detecte. Active Capture Tab pour controler tout l'audio de cet onglet, ou commence a lire un media.",
+    "autoDismiss": "Ce message peut se fermer automatiquement lorsque l'audio est detecte."
+  },
+  "refreshRequired": {
+    "title": "Actualisation requise",
+    "description": "Cet onglet etait ouvert avant l'installation de Vibes. Rechargez la page pour activer le controle audio.",
+    "reload": "Recharger la page"
+  },
+  "modes": {
+    "default": "Defaut",
+    "fastCapture": "Rapide",
+    "interceptor": "Intercepteur",
+    "tabCapture": "Capture Tab"
+  },
+  "notifications": {
+    "fineTuneEnabled": "Precision activee",
+    "fineTuneDisabled": "Precision desactivee"
+  },
+  "pitcher": {
+    "defaultQuote": "salut toi ! clique moi :)"
+  }
+}

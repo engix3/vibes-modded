@@ -1,0 +1,10 @@
+{
+   "extDescription": {
+      "description": "Extension description shown in Chrome Web Store",
+      "message": "Change la tonalite, la vitesse et la reverb de n'importe quelle video ou audio. Inclut des presets slowed+reverb, nightcore et un crabe motivant !"
+   },
+   "extName": {
+      "description": "Extension name shown in Chrome Web Store and extensions page",
+      "message": "Vibes - Changeur de Tonalite, Vitesse et Reverb"
+   }
+}

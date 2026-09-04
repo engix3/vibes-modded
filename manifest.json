@@ -1,0 +1,48 @@
+{
+   "action": {
+      "default_icon": {
+         "128": "resources/icon128.png",
+         "16": "resources/icon16.png",
+         "48": "resources/icon48.png"
+      },
+      "default_popup": "popup.html"
+   },
+   "background": {
+      "service_worker": "background.js"
+   },
+   "content_scripts": [ {
+      "all_frames": false,
+      "js": [ "backend/fast/fast-main.js" ],
+      "matches": [ "\u003Call_urls>" ],
+      "run_at": "document_start",
+      "world": "MAIN"
+   }, {
+      "all_frames": false,
+      "js": [ "config.js", "backend/fast/fast-bridge.js" ],
+      "matches": [ "\u003Call_urls>" ],
+      "run_at": "document_start",
+      "world": "ISOLATED"
+   }, {
+      "js": [ "backend/audio/freeverb-new.js", "backend/content.js" ],
+      "matches": [ "\u003Call_urls>" ],
+      "run_at": "document_end"
+   } ],
+   "default_locale": "en",
+   "description": "Pitch shifter, speed controller & reverb for any video or audio. Includes slowed+reverb, nightcore presets & an encouragement crab!",
+   "host_permissions": [ "\u003Call_urls>" ],
+   "icons": {
+      "128": "resources/icon128.png",
+      "16": "resources/icon16.png",
+      "48": "resources/icon48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApWWmxPX/RxYBZfo4+Ge29wQmJ/RcErcbTTr62OXFVk35TL3sU9nzro3DU8nekqpCeRdKGIsGr4e61gje066sV4Oe+oUP71hQorxUAXUvHiUcI+3tID4qO3KstuqaKw7KWd0bA8QaHxsjy1JVbZGutrUgaT2WjnHdJknv+uDqg3rcxmxIP65QWEyTKsrE+0+cHPDg6ImfxoU9NsjmGxOmOMP7zkv2u2kyBjk4APzCVFByIldUE41YovUDSoOJtm//T8LXjsKv1SnMvpfCejdASQBqlXh7a/XAaKzJw6LzDZBwFUWRxqIDHkL7E8NftoJaWQnaFI5qdxNH1uoobZv1bwIDAQAB",
+   "manifest_version": 3,
+   "name": "Vibes - Pitch Changer, Speed Controls, & Reverb",
+   "permissions": [ "activeTab", "scripting", "storage", "tabCapture", "offscreen" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.0.8",
+   "web_accessible_resources": [ {
+      "matches": [ "\u003Call_urls>" ],
+      "resources": [ "backend/audio/audio-config.js", "backend/audio/freeverb-processor.js", "backend/audio/jungle.js", "lang/languages.json", "lang/*/ui.json", "lang/*/quotes.json", "lang/*/premium/*.json" ]
+   } ]
+}

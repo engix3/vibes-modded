@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to Vibes!</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      color: #e4e4e7;
+    }
+    
+    .container {
+      max-width: 800px;
+      text-align: center;
+    }
+    
+    .logo {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    
+    h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #ffed4a, #fbbf24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .subtitle {
+      font-size: 22px;
+      color: #a1a1aa;
+      margin-bottom: 48px;
+      line-height: 1.6;
+    }
+    
+    .tutorial-image {
+      max-width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      margin-bottom: 48px;
+    }
+    
+    .steps {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    
+    .step {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      width: 220px;
+      text-align: center;
+    }
+    
+    .step-number {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0 auto 16px;
+    }
+    
+    .step-number.yellow {
+      background: #fbbf24;
+      color: #18181b;
+    }
+    
+    .step-number.blue {
+      background: #56b2eb;
+      color: #18181b;
+    }
+    
+    .step-number.green {
+      background: #4ade80;
+      color: #18181b;
+    }
+    
+    .step h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #e4e4e7;
+    }
+    
+    .step p {
+      font-size: 14px;
+      color: #a1a1aa;
+      line-height: 1.5;
+    }
+    
+    .features {
+      background: rgba(251, 191, 36, 0.1);
+      border: 1px solid rgba(251, 191, 36, 0.2);
+      border-radius: 12px;
+      padding: 24px 32px;
+      margin-bottom: 48px;
+      display: inline-block;
+    }
+    
+    .features h2 {
+      color: #fbbf24;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    
+    .features p {
+      color: #e4e4e7;
+      font-size: 15px;
+    }
+    
+    .cta {
+      display: inline-block;
+      padding: 16px 32px;
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #18181b;
+      font-size: 18px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 12px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(251, 191, 36, 0.3);
+    }
+    
+    .footer {
+      margin-top: 48px;
+      color: #52525b;
+      font-size: 14px;
+    }
+    
+    .footer a {
+      color: #71717a;
+      text-decoration: none;
+    }
+    
+    .footer a:hover {
+      color: #fbbf24;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">🎵</div>
+    <h1>Welcome to Vibes!</h1>
+    <p class="subtitle">
+      To begin using the extension, click the puzzle icon in the top-right corner,<br>
+      and then pin the extension, as shown in the screenshot below:
+    </p>
+    
+    <img src="resources/vibes-tutorial.png" alt="How to pin Vibes" class="tutorial-image">
+    
+    <div class="steps">
+      <div class="step">
+        <div class="step-number yellow">1</div>
+        <h3>Click Extensions</h3>
+        <p>Click the puzzle piece icon in Chrome's toolbar</p>
+      </div>
+      <div class="step">
+        <div class="step-number blue">2</div>
+        <h3>Pin Vibes</h3>
+        <p>Click the pin icon next to Vibes</p>
+      </div>
+      <div class="step">
+        <div class="step-number green">3</div>
+        <h3>Start Using!</h3>
+        <p>Click the icon anytime to adjust pitch & speed</p>
+      </div>
+    </div>
+    
+    <div class="features">
+      <h2>🌟 Works for Movies, TV, Video, Podcasts, Music and more!</h2>
+      <p>Transpose songs, slow down for practice, speed up lectures — all completely free.</p>
+    </div>
+    
+    <br><br>
+    
+    <a href="https://www.youtube.com" class="cta">Try it on YouTube →</a>
+    
+    <div class="footer">
+      <p>Made with ❤️ by <strong>Klarz</strong></p>
+      <p style="margin-top: 8px;">
+        <a href="https://ko-fi.com/klarz">Support on Ko-fi</a> · 
+        <a href="https://shrine.dev/">Join Discord</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

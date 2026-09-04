@@ -1,0 +1,10 @@
+{
+  "extDescription": {
+    "description": "Extension description shown in Chrome Web Store",
+    "message": "Изменение тона, управление скоростью и реверб для любого видео или аудио. Пресеты slowed+reverb, nightcore и мотивирующий краб!"
+  },
+  "extName": {
+    "description": "Extension name shown in Chrome Web Store and extensions page",
+    "message": "Vibes — изменение тона, скорости и реверб"
+  }
+}

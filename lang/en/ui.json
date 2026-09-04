@@ -1,0 +1,137 @@
+{
+  "meta": {
+    "code": "en",
+    "name": "English",
+    "author": "Klarz",
+    "version": "1.3.0",
+    "_doNotTranslate": [
+      "header.appName (Vibes is the brand name)",
+      "meta.author (Klarz is the developer's name)"
+    ]
+  },
+  "header": {
+    "appName": "Vibes"
+  },
+  "promo": {
+    "tagline": "For Movies, TV, Video, Podcasts, and Music"
+  },
+  "tabs": {
+    "sliders": "Sliders",
+    "karaoke": "Karaoke"
+  },
+  "karaoke": {
+    "underConstruction": "Under Construction",
+    "comingSoon": "Karaoke mode coming soon!"
+  },
+  "sliders": {
+    "fineTune": "Fine Tune (decimals)",
+    "pitch": "Pitch",
+    "speed": "Speed",
+    "reverb": "Reverb",
+    "volume": "Volume"
+  },
+  "shortcuts": {
+    "title": "Shortcuts",
+    "addShortcut": "Add Shortcut",
+    "default": "Default",
+    "slowedDown": "Slowed Down",
+    "spedUp": "Sped Up",
+    "slowReverb": "Slowed + Reverb",
+    "nightcore": "Nightcore"
+  },
+  "modal": {
+    "createShortcut": "Create Shortcut",
+    "editShortcut": "Edit Shortcut",
+    "shortcutName": "Shortcut Name",
+    "shortcutNamePlaceholder": "My Shortcut",
+    "chooseEmoji": "Choose Emoji",
+    "settingsToApply": "Settings to Apply",
+    "cancel": "Cancel",
+    "saveShortcut": "Save Shortcut",
+    "apply": "Apply",
+    "pass": "Pass (ignore)",
+    "reset": "Reset",
+    "warningNeedOne": "At least one setting must be set to Apply",
+    "warningDefault": "Adjust sliders first - cannot save default settings",
+    "warningDuplicate": "Already exists as \"{name}\"",
+    "confirmDelete": "Delete \"{name}\"?",
+    "confirmHideDefault": "Hide \"{name}\"? You can restore hidden shortcuts via the counter.",
+    "confirmRestoreDefaults": "Restore {count} hidden shortcut(s)?\n\n{names}\n\nUsage counts will be reset to 0."
+  },
+  "footer": {
+    "donate": "Donate",
+    "premium": "Vibes+",
+    "madeWith": "Made with",
+    "by": "by",
+    "editedBy": "Edited by engi",
+    "clickForLove": "Click for love!"
+  },
+  "premium": {
+    "title": "Vibes+",
+    "signInText": "Sign in to access premium features",
+    "signInGoogle": "Sign in with Google",
+    "featureThemes": "Premium Themes",
+    "featureShortcuts": "Unlimited Shortcuts",
+    "featureQuotes": "Extra Crab Quotes",
+    "perMonth": "/month",
+    "subscribe": "Subscribe",
+    "signOut": "Sign Out",
+    "thankYou": "Thank you for subscribing!",
+    "manage": "Manage Subscription",
+    "loading": "Loading...",
+    "error": "Something went wrong"
+  },
+  "status": {
+    "na": "N/A",
+    "media": "{count} media",
+    "noMedia": "No media",
+    "detected": "Detected",
+    "off": "Off",
+    "on": "On"
+  },
+  "settings": {
+    "theme": "Theme",
+    "themeDefault": "Default",
+    "language": "Language",
+    "switchToLight": "Switch to Light Mode",
+    "switchToDark": "Switch to Dark Mode",
+    "auto": "Auto",
+    "detected": "Detected",
+    "joinDiscord": "Join Our Discord!",
+    "classicMode": "Classic Mode",
+    "fineTune": "Fine-tune",
+    "autoSpeedPitch": "Vinyl pitch mode",
+    "alwaysTab": "Always Tab"
+  },
+  "tabCapture": {
+    "title": "Tab Capture",
+    "description": "Enable Tab Capture for full audio control on this site.",
+    "speedNote": "Speed control may not be available in Tab Capture mode.",
+    "alwaysEnable": "Always Enable",
+    "notNow": "Not Now",
+    "enable": "Enable"
+  },
+  "noMedia": {
+    "title": "Start Tab Capture?",
+    "description": "No audio or video was detected. Enable Tab Capture to control all audio from this tab, or start playing media.",
+    "autoDismiss": "This prompt may auto-dismiss when audio is detected."
+  },
+  "refreshRequired": {
+    "title": "Refresh Required",
+    "description": "This tab was open before Vibes was installed. Reload the page to enable audio control.",
+    "reload": "Reload Page"
+  },
+  "modes": {
+    "default": "Default",
+    "fastCapture": "Fast",
+    "interceptor": "Interceptor",
+    "tabCapture": "Tab Capture"
+  },
+  "notifications": {
+    "fineTuneEnabled": "Fine-tune enabled",
+    "fineTuneDisabled": "Fine-tune disabled"
+  },
+  "pitcher": {
+    "defaultQuote": "hey there! click me :)"
+  }
+}

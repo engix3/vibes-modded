@@ -1,0 +1,10 @@
+{
+   "extDescription": {
+      "description": "Extension description shown in Chrome Web Store",
+      "message": "为任何视频或音频调整音调、速度和混响。内置慢速混响、夜核预设，还有一只鼓励小螃蟹！"
+   },
+   "extName": {
+      "description": "Extension name shown in Chrome Web Store and extensions page",
+      "message": "Vibes - 音调变换、速度控制和混响"
+   }
+}

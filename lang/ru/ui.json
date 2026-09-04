@@ -1,0 +1,136 @@
+{
+  "meta": {
+    "code": "ru",
+    "name": "Русский",
+    "author": "engi",
+    "version": "1.3.0",
+    "_doNotTranslate": [
+      "header.appName (Vibes is the brand name)"
+    ]
+  },
+  "header": {
+    "appName": "Vibes"
+  },
+  "promo": {
+    "tagline": "Для фильмов, сериалов, видео, подкастов и музыки"
+  },
+  "tabs": {
+    "sliders": "Слайдеры",
+    "karaoke": "Караоке"
+  },
+  "karaoke": {
+    "underConstruction": "В разработке",
+    "comingSoon": "Режим караоке скоро появится!"
+  },
+  "sliders": {
+    "fineTune": "Точная настройка (десятичные)",
+    "pitch": "Тон",
+    "speed": "Скорость",
+    "reverb": "Реверб",
+    "volume": "Громкость"
+  },
+  "shortcuts": {
+    "title": "Пресеты",
+    "addShortcut": "Добавить пресет",
+    "default": "Стандарт",
+    "slowedDown": "Замедление",
+    "spedUp": "Ускорение",
+    "slowReverb": "Замедление + реверб",
+    "nightcore": "Найткор"
+  },
+  "modal": {
+    "createShortcut": "Создать пресет",
+    "editShortcut": "Редактировать пресет",
+    "shortcutName": "Название пресета",
+    "shortcutNamePlaceholder": "Мой пресет",
+    "chooseEmoji": "Выберите эмодзи",
+    "settingsToApply": "Настройки для применения",
+    "cancel": "Отмена",
+    "saveShortcut": "Сохранить пресет",
+    "apply": "Применить",
+    "pass": "Пропустить",
+    "reset": "Сброс",
+    "warningNeedOne": "Нужно выбрать хотя бы одну настройку для применения",
+    "warningDefault": "Сначала измените слайдеры — нельзя сохранить настройки по умолчанию",
+    "warningDuplicate": "Уже существует как \"{name}\"",
+    "confirmDelete": "Удалить \"{name}\"?",
+    "confirmHideDefault": "Скрыть \"{name}\"? Скрытые пресеты можно восстановить через счётчик.",
+    "confirmRestoreDefaults": "Восстановить скрытые пресеты: {count}?\n\n{names}\n\nСчётчики использования будут сброшены до 0."
+  },
+  "footer": {
+    "donate": "Поддержать",
+    "premium": "Vibes+",
+    "madeWith": "Сделано с",
+    "by": "от",
+    "editedBy": "Отредактировано engi",
+    "clickForLove": "Нажми для любви!"
+  },
+  "premium": {
+    "title": "Vibes+",
+    "signInText": "Войдите, чтобы получить доступ к премиум-функциям",
+    "signInGoogle": "Войти через Google",
+    "featureThemes": "Премиум-темы",
+    "featureShortcuts": "Безлимитные пресеты",
+    "featureQuotes": "Дополнительные цитаты краба",
+    "perMonth": "/месяц",
+    "subscribe": "Подписаться",
+    "signOut": "Выйти",
+    "thankYou": "Спасибо за подписку!",
+    "manage": "Управлять подпиской",
+    "loading": "Загрузка...",
+    "error": "Что-то пошло не так"
+  },
+  "status": {
+    "na": "Н/Д",
+    "media": "Медиа: {count}",
+    "noMedia": "Медиа не найдено",
+    "detected": "Найдено",
+    "off": "Выкл",
+    "on": "Вкл"
+  },
+  "settings": {
+    "theme": "Тема",
+    "themeDefault": "По умолчанию",
+    "language": "Язык",
+    "switchToLight": "Переключить на светлую тему",
+    "switchToDark": "Переключить на тёмную тему",
+    "auto": "Авто",
+    "detected": "Найдено",
+    "joinDiscord": "Присоединиться к Discord!",
+    "classicMode": "Классический режим",
+    "fineTune": "Точная настройка",
+    "autoSpeedPitch": "Виниловый режим",
+    "alwaysTab": "Всегда Tab"
+  },
+  "tabCapture": {
+    "title": "Захват вкладки",
+    "description": "Включите захват вкладки для полного контроля звука на этом сайте.",
+    "speedNote": "Управление скоростью может быть недоступно в режиме захвата вкладки.",
+    "alwaysEnable": "Всегда включать",
+    "notNow": "Не сейчас",
+    "enable": "Включить"
+  },
+  "noMedia": {
+    "title": "Запустить захват вкладки?",
+    "description": "Аудио или видео не найдено. Включите захват вкладки, чтобы управлять всем звуком этой вкладки, или запустите воспроизведение медиа.",
+    "autoDismiss": "Окно может закрыться автоматически, когда звук будет найден."
+  },
+  "refreshRequired": {
+    "title": "Нужна перезагрузка",
+    "description": "Эта вкладка была открыта до установки Vibes. Перезагрузите страницу, чтобы включить управление звуком.",
+    "reload": "Перезагрузить страницу"
+  },
+  "modes": {
+    "default": "Обычный",
+    "fastCapture": "Быстрый",
+    "interceptor": "Перехватчик",
+    "tabCapture": "Захват вкладки"
+  },
+  "notifications": {
+    "fineTuneEnabled": "Точная настройка включена",
+    "fineTuneDisabled": "Точная настройка выключена"
+  },
+  "pitcher": {
+    "defaultQuote": "привет! нажми на меня :)"
+  }
+}

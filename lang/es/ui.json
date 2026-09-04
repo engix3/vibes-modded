@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "code": "es",
+    "name": "Español",
+    "author": "Klarz",
+    "version": "1.3.0",
+    "_doNotTranslate": [
+      "header.appName (Vibes is the brand name)",
+      "meta.author (Klarz is the developer's name)"
+    ]
+  },
+  "header": {
+    "appName": "Vibes"
+  },
+  "promo": {
+    "tagline": "Para Pelis, Series, Videos, Podcasts y Música"
+  },
+  "tabs": {
+    "sliders": "Controles",
+    "karaoke": "Karaoke"
+  },
+  "karaoke": {
+    "underConstruction": "En Construcción",
+    "comingSoon": "¡Modo karaoke próximamente!"
+  },
+  "sliders": {
+    "fineTune": "Ajuste Fino (decimales)",
+    "pitch": "Tono",
+    "speed": "Velocidad",
+    "reverb": "Reverb",
+    "volume": "Volumen"
+  },
+  "shortcuts": {
+    "title": "Atajos",
+    "addShortcut": "Añadir Atajo",
+    "default": "Por Defecto",
+    "slowedDown": "Ralentizado",
+    "spedUp": "Acelerado",
+    "slowReverb": "Lento+Reverb",
+    "nightcore": "Nightcore"
+  },
+  "modal": {
+    "createShortcut": "Crear Atajo",
+    "editShortcut": "Editar Atajo",
+    "shortcutName": "Nombre del Atajo",
+    "shortcutNamePlaceholder": "Mi Atajo",
+    "chooseEmoji": "Elige un Emoji",
+    "settingsToApply": "Ajustes a Aplicar",
+    "cancel": "Cancelar",
+    "saveShortcut": "Guardar Atajo",
+    "apply": "Aplicar",
+    "pass": "Omitir (ignorar)",
+    "reset": "Restablecer",
+    "warningNeedOne": "Al menos un ajuste debe estar en Aplicar",
+    "warningDefault": "Ajusta los controles primero - no se pueden guardar ajustes por defecto",
+    "warningDuplicate": "Ya existe como \"{name}\"",
+    "confirmDelete": "¿Eliminar \"{name}\"?",
+    "confirmHideDefault": "¿Ocultar \"{name}\"? Puedes restaurar atajos ocultos desde el contador.",
+    "confirmRestoreDefaults": "¿Restaurar {count} atajo(s) oculto(s)?\n\n{names}\n\nLos contadores de uso se restablecerán a 0."
+  },
+  "footer": {
+    "donate": "Donar",
+    "premium": "Vibes+",
+    "madeWith": "Hecho con",
+    "by": "por",
+    "clickForLove": "¡Clic para amor!"
+  },
+  "premium": {
+    "title": "Vibes+",
+    "signInText": "Inicia sesión para acceder a funciones premium",
+    "signInGoogle": "Iniciar sesión con Google",
+    "featureThemes": "Temas Premium",
+    "featureShortcuts": "Atajos Ilimitados",
+    "featureQuotes": "Frases Extra del Cangrejo",
+    "perMonth": "/mes",
+    "subscribe": "Suscribirse",
+    "signOut": "Cerrar Sesión",
+    "thankYou": "¡Gracias por suscribirte!",
+    "manage": "Gestionar Suscripción",
+    "loading": "Cargando...",
+    "error": "Algo salió mal"
+  },
+  "status": {
+    "na": "N/D",
+    "media": "{count} medios",
+    "noMedia": "Sin medios",
+    "detected": "Detectado",
+    "off": "Off",
+    "on": "On"
+  },
+  "settings": {
+    "theme": "Tema",
+    "themeDefault": "Por Defecto",
+    "language": "Idioma",
+    "switchToLight": "Cambiar a Modo Claro",
+    "switchToDark": "Cambiar a Modo Oscuro",
+    "auto": "Auto",
+    "detected": "Detectado",
+    "joinDiscord": "¡Únete a Nuestro Discord!",
+    "classicMode": "Modo Clásico",
+    "fineTune": "Ajuste fino",
+    "alwaysTab": "Siempre Tab"
+  },
+  "tabCapture": {
+    "title": "Captura Tab",
+    "description": "Captura el audio directo de la pestaña.",
+    "speedNote": "La velocidad puede no estar disponible en modo Captura Tab.",
+    "alwaysEnable": "Siempre Activar",
+    "notNow": "Ahora No",
+    "enable": "Activar"
+  },
+  "noMedia": {
+    "title": "Iniciar Captura de Tab?",
+    "description": "No se detectó audio o video. Activa Captura Tab para controlar todo el audio de esta pestaña, o empieza a reproducir medios.",
+    "autoDismiss": "Este mensaje puede cerrarse automáticamente cuando se detecte audio."
+  },
+  "refreshRequired": {
+    "title": "Actualizar Requerido",
+    "description": "Esta pestaña estaba abierta antes de instalar Vibes. Recarga la página para habilitar el control de audio.",
+    "reload": "Recargar Página"
+  },
+  "modes": {
+    "default": "Por Defecto",
+    "fastCapture": "Rápido",
+    "interceptor": "Interceptor",
+    "tabCapture": "Captura Tab"
+  },
+  "notifications": {
+    "fineTuneEnabled": "Ajuste fino activado",
+    "fineTuneDisabled": "Ajuste fino desactivado"
+  },
+  "pitcher": {
+    "defaultQuote": "¡ey! hazme clic :)"
+  }
+}

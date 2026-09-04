@@ -1,0 +1,19 @@
+# OS and editor files
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Local build and packaging output
+dist/
+build/
+*.zip
+*.crx
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.local
+secrets/

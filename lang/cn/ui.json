@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "code": "cn",
+    "name": "简体中文",
+    "author": "Klarz",
+    "version": "1.3.0",
+    "_doNotTranslate": [
+      "header.appName (Vibes is the brand name)",
+      "meta.author (Klarz is the developer's name)"
+    ]
+  },
+  "header": {
+    "appName": "Vibes"
+  },
+  "promo": {
+    "tagline": "适用于电影、电视、视频、播客和音乐"
+  },
+  "tabs": {
+    "sliders": "调节器",
+    "karaoke": "卡拉OK"
+  },
+  "karaoke": {
+    "underConstruction": "正在施工",
+    "comingSoon": "卡拉OK模式即将上线!"
+  },
+  "sliders": {
+    "fineTune": "精细调节 (小数)",
+    "pitch": "音调",
+    "speed": "速度",
+    "reverb": "混响",
+    "volume": "音量"
+  },
+  "shortcuts": {
+    "title": "快捷方式",
+    "addShortcut": "添加快捷方式",
+    "default": "默认",
+    "slowedDown": "减速版",
+    "spedUp": "加速版",
+    "slowReverb": "慢速混响",
+    "nightcore": "夜核"
+  },
+  "modal": {
+    "createShortcut": "创建快捷方式",
+    "editShortcut": "编辑快捷方式",
+    "shortcutName": "快捷方式名称",
+    "shortcutNamePlaceholder": "我的快捷方式",
+    "chooseEmoji": "选择表情",
+    "settingsToApply": "要应用的设置",
+    "cancel": "取消",
+    "saveShortcut": "保存快捷方式",
+    "apply": "应用",
+    "pass": "跳过 (忽略)",
+    "reset": "重置",
+    "warningNeedOne": "至少需要一个设置为「应用」",
+    "warningDefault": "请先调整滑块 - 无法保存默认设置",
+    "warningDuplicate": "已存在相同设置: \"{name}\"",
+    "confirmDelete": "删除 \"{name}\"?",
+    "confirmHideDefault": "隐藏 \"{name}\"? 你可以通过计数器恢复隐藏的快捷方式。",
+    "confirmRestoreDefaults": "恢复 {count} 个隐藏的快捷方式?\n\n{names}\n\n使用次数将重置为0。"
+  },
+  "footer": {
+    "donate": "打赏",
+    "premium": "Vibes+",
+    "madeWith": "用",
+    "by": "制作",
+    "clickForLove": "点击送爱心!"
+  },
+  "premium": {
+    "title": "Vibes+",
+    "signInText": "登录以访问高级功能",
+    "signInGoogle": "使用 Google 登录",
+    "featureThemes": "高级主题",
+    "featureShortcuts": "无限快捷方式",
+    "featureQuotes": "更多螃蟹语录",
+    "perMonth": "/月",
+    "subscribe": "订阅",
+    "signOut": "退出登录",
+    "thankYou": "感谢您的订阅！",
+    "manage": "管理订阅",
+    "loading": "加载中...",
+    "error": "出了点问题"
+  },
+  "status": {
+    "na": "N/A",
+    "media": "{count} 个媒体",
+    "noMedia": "无媒体",
+    "detected": "已检测",
+    "off": "关",
+    "on": "开"
+  },
+  "settings": {
+    "theme": "主题",
+    "themeDefault": "默认",
+    "language": "语言",
+    "switchToLight": "切换到浅色模式",
+    "switchToDark": "切换到深色模式",
+    "auto": "自动",
+    "detected": "已检测",
+    "joinDiscord": "加入我们的Discord!",
+    "classicMode": "经典模式",
+    "fineTune": "精细调节",
+    "alwaysTab": "始终捕获"
+  },
+  "tabCapture": {
+    "title": "标签页捕获",
+    "description": "启用标签页捕获以获得完整的音频控制。",
+    "speedNote": "标签页捕获模式下可能无法调节速度。",
+    "alwaysEnable": "始终启用",
+    "notNow": "暂不",
+    "enable": "启用"
+  },
+  "noMedia": {
+    "title": "启用标签页捕获?",
+    "description": "未检测到音频或视频。启用标签页捕获以控制此标签页的所有音频，或开始播放媒体。",
+    "autoDismiss": "检测到音频时，此提示可能会自动关闭。"
+  },
+  "refreshRequired": {
+    "title": "需要刷新",
+    "description": "此标签页在安装 Vibes 之前已打开。刷新页面以启用音频控制。",
+    "reload": "刷新页面"
+  },
+  "modes": {
+    "default": "默认",
+    "fastCapture": "快速",
+    "interceptor": "拦截器",
+    "tabCapture": "标签页捕获"
+  },
+  "notifications": {
+    "fineTuneEnabled": "精细调节已开启",
+    "fineTuneDisabled": "精细调节已关闭"
+  },
+  "pitcher": {
+    "defaultQuote": "嗨~ 点我看看 :)"
+  }
+}

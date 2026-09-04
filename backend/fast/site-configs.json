@@ -1,0 +1,62 @@
+{
+  "spotify.com": {
+    "enabled": true,
+    "captureMethod": "createElement",
+    "speedControlEnabled": true,
+    "blockSpeedReset": true,
+    "crossOrigin": "anonymous",
+    "notes": "Uses blob: URLs for video elements"
+  },
+  "soundcloud.com": {
+    "enabled": true,
+    "captureMethod": "createElement",
+    "speedControlEnabled": true,
+    "blockSpeedReset": false,
+    "crossOrigin": "anonymous"
+  },
+  "pandora.com": {
+    "enabled": true,
+    "captureMethod": "createElement",
+    "speedControlEnabled": true,
+    "blockSpeedReset": true,
+    "crossOrigin": "anonymous"
+  },
+  "deezer.com": {
+    "enabled": true,
+    "captureMethod": "createElement",
+    "speedControlEnabled": true,
+    "blockSpeedReset": false,
+    "crossOrigin": "anonymous"
+  },
+  "tidal.com": {
+    "enabled": true,
+    "captureMethod": "createElement",
+    "speedControlEnabled": true,
+    "blockSpeedReset": false,
+    "crossOrigin": "anonymous"
+  },
+  "vk.com": {
+    "enabled": true,
+    "captureMethod": "tabCapturePreferred",
+    "speedControlEnabled": true,
+    "blockSpeedReset": true,
+    "crossOrigin": "anonymous",
+    "notes": "VK commonly serves media from protected CDN hosts; Tab Capture is preferred for reliable pitch/reverb"
+  },
+  "vk.ru": {
+    "enabled": true,
+    "captureMethod": "tabCapturePreferred",
+    "speedControlEnabled": true,
+    "blockSpeedReset": true,
+    "crossOrigin": "anonymous",
+    "notes": "VK commonly serves media from protected CDN hosts; Tab Capture is preferred for reliable pitch/reverb"
+  },
+  "youtube.com": {
+    "enabled": false,
+    "notes": "YouTube works better with DEFAULT mode, not Fast Capture"
+  },
+  "youtu.be": {
+    "enabled": false,
+    "notes": "YouTube short URLs"
+  }
+}

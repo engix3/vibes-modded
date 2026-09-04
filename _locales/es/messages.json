@@ -1,0 +1,10 @@
+{
+   "extDescription": {
+      "description": "Extension description shown in Chrome Web Store",
+      "message": "Cambia el tono, velocidad y reverb de cualquier video o audio. Incluye presets de slowed+reverb, nightcore y un cangrejo motivador!"
+   },
+   "extName": {
+      "description": "Extension name shown in Chrome Web Store and extensions page",
+      "message": "Vibes - Cambiador de Tono, Velocidad y Reverb"
+   }
+}

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popup.css">
+  
+  <script src="config.js"></script>
+  
+  <script src="backend/fast/fast-popup.js"></script>
+</head>
+<body>
+  
+  <div class="notification-pill" id="notification-pill">
+    <span id="notification-pill-text"></span>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <div class="logo">
+        <img src="resources/vibes-logo.png" alt="Vibes" class="logo-img">
+        
+        <span class="logo-icon">🎵</span>
+        <span class="logo-text">Vibes</span>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="enabled-toggle">
+        <span class="toggle-slider"></span>
+      </label>
+    </div>
+    
+    <div class="promo-label">
+      <span>🌟</span>
+      <span data-lang="promo.tagline">For Movies, TV, Video, Podcasts, and Music</span>
+    </div>
+    
+    <div class="mode-tabs">
+      <div class="mode-tabs-slider" id="mode-slider"></div>
+      <button class="mode-tab active" id="sliders-tab">
+        <span class="mode-tab-text"><span class="mode-tab-text-base" data-lang="tabs.sliders">Sliders</span></span>
+      </button>
+      <button class="mode-tab" id="shortcuts-tab">
+        <span class="mode-tab-text"><span class="mode-tab-text-base" data-lang="tabs.karaoke">Karaoke</span></span>
+      </button>
+    </div>
+
+    
+    <div class="shortcuts-mode" id="shortcuts-mode">
+      
+      <div class="under-construction">
+        <span class="under-construction-icon">🚧</span>
+        <span class="under-construction-title" data-lang="karaoke.underConstruction">Under Construction</span>
+        <span class="under-construction-text" data-lang="karaoke.comingSoon">Karaoke mode coming soon!</span>
+      </div>
+      
+      <div class="shortcuts-grid">
+        <button class="shortcut-btn add-shortcut" id="add-shortcut-btn">
+          <span class="shortcut-icon">+</span>
+          <span class="shortcut-name">Add Shortcut</span>
+        </button>
+      </div>
+      <div class="mood-box">
+        <span class="mood-emoji" id="mood-emoji">🎵</span>
+      </div>
+    </div>
+    
+    
+    <div class="sliders-mode visible" id="sliders-mode">
+      
+      <div class="shortcuts-container" id="shortcuts-container">
+        <div class="shortcuts-header">
+          <div class="shortcuts-left-btns">
+            <button class="shortcuts-edit-btn" id="shortcuts-edit-btn" title="Edit Mode">✎</button>
+            <button class="shortcuts-reset-btn" id="shortcuts-reset-btn" title="Reset to Default">↺</button>
+            <button class="shortcuts-smart-btn" id="shortcuts-restore-btn" title="Smart Order">🧠</button>
+          </div>
+          <span class="shortcuts-title" data-lang="shortcuts.title">Shortcuts</span>
+          <div class="shortcuts-right-btns">
+            <span class="shortcuts-count" id="shortcuts-count">0/0</span>
+            <button class="shortcuts-add-btn" id="shortcuts-add-btn" title="New Shortcut">+</button>
+          </div>
+        </div>
+        <div class="shortcuts-strip-wrapper" id="shortcuts-strip-wrapper">
+          <div class="shortcuts-strip" id="shortcuts-strip">
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="control-group" id="volume-group">
+        <div class="control-header">
+          <span class="control-label" data-lang="sliders.volume">Volume</span>
+          <button class="reset-btn" id="volume-reset" title="Reset">↺</button>
+        </div>
+        <div class="slider-row">
+          <button class="slider-btn" id="volume-minus">−</button>
+          <div class="custom-slider volume" id="volume-slider">
+            <div class="slider-fill volume" id="volume-fill"></div>
+            <div class="slider-text-container">
+              <div class="slider-text-base volume" id="volume-text-base">100%</div>
+              <div class="slider-text-clip" id="volume-text-clip">100%</div>
+            </div>
+          </div>
+          <button class="slider-btn" id="volume-plus">+</button>
+        </div>
+      </div>
+
+      <div class="control-group" id="pitch-group">
+        <div class="control-header">
+          <span class="control-label" data-lang="sliders.pitch">Pitch</span>
+          <button class="reset-btn" id="pitch-reset" title="Reset">↺</button>
+        </div>
+        <div class="slider-row">
+          <button class="slider-btn" id="pitch-minus">−</button>
+          <div class="custom-slider pitch" id="pitch-slider">
+            <div class="slider-fill pitch" id="pitch-fill"></div>
+            <div class="slider-text-container">
+              <div class="slider-text-base pitch" id="pitch-text-base">0</div>
+              <div class="slider-text-clip" id="pitch-text-clip">0</div>
+            </div>
+          </div>
+          <button class="slider-btn" id="pitch-plus">+</button>
+        </div>
+      </div>
+      
+      <div class="control-group" id="speed-group">
+        <div class="control-header">
+          <span class="control-label" data-lang="sliders.speed">Speed</span>
+          <button class="reset-btn" id="speed-reset" title="Reset">↺</button>
+        </div>
+        <div class="slider-row">
+          <button class="slider-btn" id="speed-minus">−</button>
+          <div class="custom-slider speed" id="speed-slider">
+            <div class="slider-fill speed" id="speed-fill"></div>
+            <div class="slider-text-container">
+              <div class="slider-text-base speed" id="speed-text-base">100%</div>
+              <div class="slider-text-clip" id="speed-text-clip">100%</div>
+            </div>
+          </div>
+          <button class="slider-btn" id="speed-plus">+</button>
+        </div>
+      </div>
+      
+      <div class="control-group" id="reverb-group">
+        <div class="control-header">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span class="control-label" data-lang="sliders.reverb">Reverb</span>
+            <label class="toggle toggle-small">
+              <input type="checkbox" id="reverb-toggle">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <button class="reset-btn" id="reverb-reset" title="Reset">↺</button>
+        </div>
+        <div class="slider-row">
+          <button class="slider-btn" id="reverb-minus">−</button>
+          <div class="custom-slider reverb" id="reverb-slider">
+            <div class="slider-fill reverb" id="reverb-fill"></div>
+            <div class="slider-text-container">
+              <div class="slider-text-base reverb" id="reverb-text-base">50%</div>
+              <div class="slider-text-clip" id="reverb-text-clip">50%</div>
+            </div>
+          </div>
+          <button class="slider-btn" id="reverb-plus">+</button>
+        </div>
+      </div>
+
+      
+      <div class="pill-slider-group" id="volume-pill-group" data-slider="volume">
+        <div class="pill-label" id="volume-pill-label" title="Click to reset Volume to 100%">
+          <span class="pill-label-text" data-lang="sliders.volume">Volume</span>
+          <span class="pill-reset-btn">↺</span>
+        </div>
+        <div class="pill-slider volume" id="volume-pill-slider">
+          <button class="pill-btn pill-btn-minus" id="volume-pill-minus" data-action="minus">
+            <span class="pill-btn-symbol">−</span>
+            <div class="pill-btn-hold-circle"></div>
+          </button>
+          <div class="pill-slider-fill volume" id="volume-pill-fill"></div>
+          <span class="pill-slider-emoji">🔊</span>
+          <div class="pill-slider-text-container">
+            <div class="pill-slider-label-row">
+              <div class="pill-slider-label volume" id="volume-pill-label-text" data-lang="sliders.volume" data-lang-transform="uppercase">VOLUME</div>
+              <div class="pill-slider-label-clip" id="volume-pill-label-clip" data-lang="sliders.volume" data-lang-transform="uppercase">VOLUME</div>
+            </div>
+            <div class="pill-slider-value-row">
+              <div class="pill-slider-value-base volume" id="volume-pill-text-base">100%</div>
+              <div class="pill-slider-value-clip" id="volume-pill-text-clip">100%</div>
+            </div>
+          </div>
+          <button class="pill-btn pill-btn-plus" id="volume-pill-plus" data-action="plus">
+            <span class="pill-btn-symbol">+</span>
+            <div class="pill-btn-hold-circle"></div>
+          </button>
+        </div>
+      </div>
+
+      <div class="pill-slider-group" id="pitch-pill-group" data-slider="pitch">
+        <div class="pill-label" id="pitch-pill-label" title="Click to reset Pitch to 0">
+          <span class="pill-label-text" data-lang="sliders.pitch">Pitch</span>
+          <span class="pill-reset-btn">↺</span>
+        </div>
+        <div class="pill-slider pitch" id="pitch-pill-slider">
+          <button class="pill-btn pill-btn-minus" id="pitch-pill-minus" data-action="minus">
+            <span class="pill-btn-symbol">−</span>
+            <div class="pill-btn-hold-circle"></div>
+          </button>
+          <div class="pill-slider-fill pitch" id="pitch-pill-fill"></div>
+          <span class="pill-slider-emoji">🎵</span>
+          <div class="pill-slider-text-container">
+            <div class="pill-slider-label-row">
+              <div class="pill-slider-label pitch" id="pitch-pill-label-text" data-lang="sliders.pitch" data-lang-transform="uppercase">PITCH</div>
+              <div class="pill-slider-label-clip" id="pitch-pill-label-clip" data-lang="sliders.pitch" data-lang-transform="uppercase">PITCH</div>
+            </div>
+            <div class="pill-slider-value-row">
+              <div class="pill-slider-value-base pitch" id="pitch-pill-text-base">0</div>
+              <div class="pill-slider-value-clip" id="pitch-pill-text-clip">0</div>
+            </div>
+          </div>
+          <button class="pill-btn pill-btn-plus" id="pitch-pill-plus" data-action="plus">
+            <span class="pill-btn-symbol">+</span>
+            <div class="pill-btn-hold-circle"></div>
+          </button>
+        </div>
+      </div>
+
+      <div class="pill-slider-group" id="speed-pill-group" data-slider="speed">
+        <div class="pill-label" id="speed-pill-label" title="Click to reset Speed to 100%">
+          <span class="pill-label-text" data-lang="sliders.speed">Speed</span>
+          <span class="pill-reset-btn">↺</span>
+        </div>
+        <div class="pill-slider speed" id="speed-pill-slider">
+          <button class="pill-btn pill-btn-minus" id="speed-pill-minus" data-action="minus">
+            <span class="pill-btn-symbol">−</span>
+            <div class="pill-btn-hold-circle"></div>
+          </button>
+          <div class="pill-slider-fill speed" id="speed-pill-fill"></div>
+          <span class="pill-slider-emoji">⚡</span>
+          <div class="pill-slider-text-container">
+            <div class="pill-slider-label-row">
+              <div class="pill-slider-label speed" id="speed-pill-label-text" data-lang="sliders.speed" data-lang-transform="uppercase">SPEED</div>
+              <div class="pill-slider-label-clip" id="speed-pill-label-clip" data-lang="sliders.speed" data-lang-transform="uppercase">SPEED</div>
+            </div>
+            <div class="pill-slider-value-row">
+              <div class="pill-slider-value-base speed" id="speed-pill-text-base">100%</div>
+              <div class="pill-slider-value-clip" id="speed-pill-text-clip">100%</div>
+            </div>
+          </div>
+          <button class="pill-btn pill-btn-plus" id="speed-pill-plus" data-action="plus">
+            <span class="pill-btn-symbol">+</span>
+            <div class="pill-btn-hold-circle"></div>
+          </button>
+        </div>
+      </div>
+
+      <div class="pill-slider-group" id="reverb-pill-group" data-slider="reverb">
+        <div class="pill-label" id="reverb-pill-label" title="Click to toggle Reverb on/off">
+          <span class="pill-label-text" data-lang="sliders.reverb">Reverb</span>
+          <span class="pill-reset-btn" title="Reset to 50%">↺</span>
+          <label class="toggle toggle-tiny pill-label-toggle">
+            <input type="checkbox" id="reverb-pill-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="pill-slider reverb" id="reverb-pill-slider">
+          <button class="pill-btn pill-btn-minus" id="reverb-pill-minus" data-action="minus">
+            <span class="pill-btn-symbol">−</span>
+            <div class="pill-btn-hold-circle"></div>
+          </button>
+          <div class="pill-slider-fill reverb" id="reverb-pill-fill"></div>
+          <span class="pill-slider-emoji">✨</span>
+          <div class="pill-slider-text-container">
+            <div class="pill-slider-label-row">
+              <div class="pill-slider-label reverb" id="reverb-pill-label-text" data-lang="sliders.reverb" data-lang-transform="uppercase">REVERB</div>
+              <div class="pill-slider-label-clip" id="reverb-pill-label-clip" data-lang="sliders.reverb" data-lang-transform="uppercase">REVERB</div>
+            </div>
+            <div class="pill-slider-value-row">
+              <div class="pill-slider-value-base reverb" id="reverb-pill-text-base">50%</div>
+              <div class="pill-slider-value-clip" id="reverb-pill-text-clip">50%</div>
+            </div>
+          </div>
+          <button class="pill-btn pill-btn-plus" id="reverb-pill-plus" data-action="plus">
+            <span class="pill-btn-symbol">+</span>
+            <div class="pill-btn-hold-circle"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    <div class="pitcher-area" id="pitcher-area" title="Click for a new quote!">
+      <div class="pitcher-bubble">
+        <span class="pitcher-quote" id="pitcher-quote">hey there! click me :)</span>
+      </div>
+      <div class="pitcher-character" id="pitcher-character">🦀</div>
+    </div>
+    <div class="footer-row">
+      
+      <button class="footer-action-btn" id="footer-action-btn">
+        <span class="footer-action-icon" id="footer-action-icon">⭐</span>
+        <span class="footer-action-text" id="footer-action-text" data-lang="footer.premium">Vibes+</span>
+      </button>
+      <div class="made-by" id="made-by-btn" data-lang-title="footer.clickForLove" title="Click for love!">
+        <span class="made-by-top" data-lang="footer.madeWith" data-lang-suffix=" ❤️">Made with ❤️</span>
+        <span class="made-by-bottom"><span data-lang="footer.by">by</span> <strong>Klarz</strong></span>
+        <span class="made-by-edit" data-lang="footer.editedBy">edited by engi</span>
+      </div>
+      
+      <div class="footer-right">
+        
+        <div class="modes-btn" id="modes-btn">
+          <span class="modes-emoji" id="modes-emoji">🎵</span>
+          <div class="modes-dropdown" id="modes-dropdown">
+            <button class="modes-option active" data-mode="default">
+              <span>🎵</span><span data-lang="modes.default">Default</span>
+            </button>
+            
+            <button class="modes-option modes-option-fastcapture" data-mode="fastcapture">
+              <span>⚡</span><span data-lang="modes.fastCapture">Fast Capture</span>
+            </button>
+            
+            <button class="modes-option modes-option-interceptor" data-mode="interceptor" style="display: none;">
+              <span>🏹</span><span data-lang="modes.interceptor">Interceptor</span>
+            </button>
+            <button class="modes-option" data-mode="tabcapture">
+              <span>📋</span><span data-lang="modes.tabCapture">Tab Capture</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="settings-btn" id="settings-btn">
+          ⚙️
+          <div class="settings-dropdown" id="settings-dropdown">
+          
+          <div class="settings-item settings-language" id="settings-language" title="Select language">
+            <span class="settings-item-label">
+              <span class="settings-item-icon">🌐</span>
+              <span data-lang="settings.language">Language</span>
+            </span>
+            <span class="settings-item-value" id="current-language">English</span>
+            
+            <div class="language-menu" id="language-menu">
+              
+            </div>
+          </div>
+          <div class="settings-divider"></div>
+          
+          <div class="settings-item settings-item-disabled" title="Theme selection coming soon">
+            <span class="settings-item-label">
+              <span class="settings-item-icon">🚧</span>
+              <span data-lang="settings.theme">Theme</span>
+            </span>
+            <span class="settings-item-value" data-lang="settings.themeDefault">Default</span>
+          </div>
+          
+          <div class="settings-item" id="always-tab-row" title="Silently switch to Tab Capture for full audio control on non-CORS sites">
+            <span class="settings-item-label">
+              <span class="settings-item-icon">📋</span>
+              <span data-lang="settings.alwaysTab">Always Tab</span>
+            </span>
+            <label class="toggle toggle-tiny">
+              <input type="checkbox" id="always-tab-toggle">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="settings-divider"></div>
+          <div class="settings-item" id="theme-switch" title="Toggle between light and dark mode">
+            <span class="settings-item-label">
+              <span class="settings-item-icon" id="theme-icon">🌙</span>
+              <span id="theme-switch-text">Switch to Light Mode</span>
+            </span>
+          </div>
+          <div class="settings-item auto-theme-row" id="auto-theme-row" title="Automatically match your browser's theme preference">
+            <span class="settings-item-label">
+              <span class="settings-item-icon">🔄</span>
+              <span data-lang="settings.auto">Auto</span>
+            </span>
+            <label class="toggle toggle-tiny">
+              <input type="checkbox" id="auto-theme-toggle" checked="checked">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="settings-divider"></div>
+          <div class="settings-item" id="fine-tune-row" title="Enable precise adjustments with smaller increments for pitch, speed & reverb">
+            <span class="settings-item-label">
+              <span class="settings-item-icon">🎚️</span>
+              <span data-lang="settings.fineTune">Fine-tune</span>
+            </span>
+            <label class="toggle toggle-tiny">
+              <input type="checkbox" id="fine-tune-toggle">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="settings-item" id="auto-speed-pitch-row" title="Natural vinyl-style pitch: speed changes together with pitch">
+            <span class="settings-item-label">
+              <span class="settings-item-icon">💿</span>
+              <span data-lang="settings.autoSpeedPitch">Vinyl pitch mode</span>
+            </span>
+            <label class="toggle toggle-tiny">
+              <input type="checkbox" id="auto-speed-pitch-toggle">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="settings-item" id="pill-sliders-row" title="Switch to the classic slider design">
+            <span class="settings-item-label">
+              <span class="settings-item-icon">🕐</span>
+              <span data-lang="settings.classicMode">Classic Mode</span>
+            </span>
+            <label class="toggle toggle-tiny">
+              <input type="checkbox" id="pill-sliders-toggle">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="settings-divider"></div>
+          <div class="settings-item" title="Number of audio/video elements detected on this page">
+            <span class="settings-item-label">
+              <span class="settings-item-icon">🎵</span>
+              <span data-lang="settings.detected">Detected</span>
+            </span>
+            <span class="settings-status">
+              <span class="status-dot" id="settings-status-dot"></span>
+              <span id="settings-status-text">N/A</span>
+            </span>
+          </div>
+          <a href="https://shrine.dev/" target="_blank" class="settings-discord-btn" title="Join our community for support, updates & feature requests">
+            <img src="resources/discord.png" alt="Discord">
+            <span data-lang="settings.joinDiscord">Join Our Discord!</span>
+          </a>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="tab-capture-overlay" id="tab-capture-overlay">
+    <div class="tab-capture-modal">
+      <div class="tab-capture-modal-title" data-lang="tabCapture.title">Tab Capture</div>
+      <div class="tab-capture-modal-text" data-lang="tabCapture.description">
+        Enable Tab Capture for full audio control on this site.
+      </div>
+      <div class="tab-capture-modal-note" id="speed-note">
+        <span>⚠️</span>
+        <span data-lang="tabCapture.speedNote">Speed control may not be available in Tab Capture mode.</span>
+      </div>
+      <div class="tab-capture-modal-note auto-dismiss-note" id="auto-dismiss-note" style="display: none;">
+        <span class="auto-dismiss-emoji" id="auto-dismiss-emoji">⚠️</span>
+        <span data-lang="noMedia.autoDismiss">This prompt may auto-dismiss when audio is detected.</span>
+      </div>
+      <label class="tab-capture-checkbox">
+        <input type="checkbox" id="tab-capture-always">
+        <span class="tab-capture-checkbox-box"></span>
+        <span data-lang="tabCapture.alwaysEnable">Always Enable</span>
+      </label>
+      <div class="tab-capture-modal-buttons">
+        <button class="tab-capture-modal-btn secondary" id="tab-capture-dismiss" data-lang="tabCapture.notNow">Not Now</button>
+        <button class="tab-capture-modal-btn primary" id="tab-capture-enable" data-lang="tabCapture.enable">Enable</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="premium-overlay" id="premium-overlay">
+    <div class="premium-modal">
+      <button class="premium-close" id="premium-close">&times;</button>
+      <div class="premium-modal-title" data-lang="premium.title">Vibes Pro</div>
+
+      
+      <div class="premium-state" id="premium-loading">
+        <div class="premium-loading-spinner"></div>
+        <div class="premium-modal-text" data-lang="premium.loading">Loading...</div>
+      </div>
+
+      
+      <div class="premium-state" id="premium-signin">
+        <div class="premium-features">
+          <div class="premium-feature"><span class="premium-feature-icon">✨</span> <span data-lang="premium.featureThemes">Premium Themes</span></div>
+          <div class="premium-feature"><span class="premium-feature-icon">🌌</span> <span data-lang="premium.featureShortcuts">Unlimited Shortcuts</span></div>
+          <div class="premium-feature"><span class="premium-feature-icon">🦀</span> <span data-lang="premium.featureQuotes">Extra Crab Quotes</span></div>
+        </div>
+        <div class="premium-modal-text" data-lang="premium.signInText">
+          Sign in to access premium features
+        </div>
+        <button class="premium-modal-btn google" id="google-signin-btn">
+          <img src="resources/google.svg" alt="Google" width="18" height="18">
+          <span data-lang="premium.signInGoogle">Sign in with Google</span>
+        </button>
+      </div>
+
+      
+      <div class="premium-state" id="premium-offer">
+        <div class="premium-user-email" id="premium-user-email"></div>
+        <div class="premium-features">
+          <div class="premium-feature"><span class="premium-feature-icon">✨</span> <span data-lang="premium.featureThemes">Premium Themes</span></div>
+          <div class="premium-feature"><span class="premium-feature-icon">🌌</span> <span data-lang="premium.featureShortcuts">Unlimited Shortcuts</span></div>
+          <div class="premium-feature"><span class="premium-feature-icon">🦀</span> <span data-lang="premium.featureQuotes">Extra Crab Quotes</span></div>
+        </div>
+        <div class="premium-price"><span id="premium-price-amount">$6.99</span><span class="premium-price-period" data-lang="premium.perMonth">/month</span></div>
+        <button class="premium-modal-btn primary" id="subscribe-btn" data-lang="premium.subscribe">Subscribe</button>
+        <button class="premium-modal-btn secondary" id="signout-offer-btn" data-lang="premium.signOut">Sign Out</button>
+      </div>
+
+      
+      <div class="premium-state" id="premium-subscribed">
+        <div class="premium-user-email" id="premium-user-email-subscribed"></div>
+        <div class="premium-thanks" data-lang="premium.thankYou">Thank you for subscribing!</div>
+        <div class="premium-features active">
+          <div class="premium-feature"><span class="premium-feature-icon">✅</span> <span data-lang="premium.featureThemes">Premium Themes</span></div>
+          <div class="premium-feature"><span class="premium-feature-icon">✅</span> <span data-lang="premium.featureShortcuts">Unlimited Shortcuts</span></div>
+          <div class="premium-feature"><span class="premium-feature-icon">✅</span> <span data-lang="premium.featureQuotes">Extra Crab Quotes</span></div>
+        </div>
+        <button class="premium-modal-btn primary" id="manage-btn" data-lang="premium.manage">Manage Subscription</button>
+        <button class="premium-modal-btn secondary" id="signout-subscribed-btn" data-lang="premium.signOut">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="modal-overlay" id="shortcut-modal">
+    <div class="modal">
+      <div class="modal-title" id="modal-title" data-lang="modal.createShortcut">Create Shortcut</div>
+
+      <div class="modal-row">
+        <div class="modal-field modal-field-grow">
+          <label class="modal-label" data-lang="modal.shortcutName">Shortcut Name</label>
+          <input type="text" class="modal-input" id="shortcut-name-input" data-lang-placeholder="modal.shortcutNamePlaceholder" placeholder="My Shortcut" maxlength="13">
+        </div>
+        <div class="modal-field modal-field-color">
+          <label class="modal-label">Color</label>
+          <div class="color-picker" id="color-picker">
+            <button class="color-option selected" data-color="0" style="--color: var(--shortcut-default)"></button>
+            <button class="color-option" data-color="1" style="--color: var(--shortcut-1)"></button>
+            <button class="color-option" data-color="2" style="--color: var(--shortcut-2)"></button>
+            <button class="color-option" data-color="3" style="--color: var(--shortcut-3)"></button>
+            <button class="color-option" data-color="4" style="--color: var(--shortcut-4)"></button>
+            <button class="color-option" data-color="5" style="--color: var(--shortcut-5)"></button>
+            <button class="color-option" data-color="6" style="--color: var(--shortcut-6)"></button>
+            <button class="color-option" data-color="7" style="--color: var(--shortcut-7)"></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-field">
+        <label class="modal-label" data-lang="modal.chooseEmoji">Choose Emoji</label>
+        <div class="emoji-picker" id="emoji-picker">
+          <button class="emoji-option selected" data-emoji="🎵">🎵</button>
+          <button class="emoji-option" data-emoji="🎧">🎧</button>
+          <button class="emoji-option" data-emoji="🎤">🎤</button>
+          <button class="emoji-option" data-emoji="🎸">🎸</button>
+          <button class="emoji-option" data-emoji="🎹">🎹</button>
+          <button class="emoji-option" data-emoji="🥁">🥁</button>
+          <button class="emoji-option" data-emoji="🎻">🎻</button>
+          <button class="emoji-option" data-emoji="🎺">🎺</button>
+          <button class="emoji-option" data-emoji="🌙">🌙</button>
+          <button class="emoji-option" data-emoji="✨">✨</button>
+          <button class="emoji-option" data-emoji="⚡">⚡</button>
+          <button class="emoji-option" data-emoji="🔥">🔥</button>
+          <button class="emoji-option" data-emoji="❄️">❄️</button>
+          <button class="emoji-option" data-emoji="🌊">🌊</button>
+          <button class="emoji-option" data-emoji="🐢">🐢</button>
+          <button class="emoji-option" data-emoji="🚀">🚀</button>
+          <button class="emoji-option" data-emoji="💫">💫</button>
+          <button class="emoji-option" data-emoji="🌈">🌈</button>
+          <button class="emoji-option" data-emoji="💜">💜</button>
+          <button class="emoji-option" data-emoji="💀">💀</button>
+        </div>
+      </div>
+      
+      <div class="modal-field">
+        <label class="modal-label" data-lang="modal.settingsToApply">Settings to Apply</label>
+        <div class="modal-settings-toggles">
+          <div class="modal-setting-row">
+            <span class="modal-setting-name" data-lang="sliders.pitch">Pitch</span>
+            <span class="modal-setting-value" id="modal-pitch">0</span>
+            <div class="triple-toggle" data-setting="pitch">
+              <button class="triple-btn on active" data-mode="on" title="Apply">✓</button>
+              <button class="triple-btn pass" data-mode="pass" title="Pass (ignore)">•</button>
+              <button class="triple-btn off" data-mode="off" title="Reset to 0">✗</button>
+            </div>
+          </div>
+          <div class="modal-setting-row">
+            <span class="modal-setting-name" data-lang="sliders.speed">Speed</span>
+            <span class="modal-setting-value" id="modal-speed">100%</span>
+            <div class="triple-toggle" data-setting="speed">
+              <button class="triple-btn on active" data-mode="on" title="Apply">✓</button>
+              <button class="triple-btn pass" data-mode="pass" title="Pass (ignore)">•</button>
+              <button class="triple-btn off" data-mode="off" title="Reset to 100%">✗</button>
+            </div>
+          </div>
+          <div class="modal-setting-row">
+            <span class="modal-setting-name" data-lang="sliders.reverb">Reverb</span>
+            <span class="modal-setting-value" id="modal-reverb">Off</span>
+            <div class="triple-toggle" data-setting="reverb">
+              <button class="triple-btn on active" data-mode="on" title="Apply">✓</button>
+              <button class="triple-btn pass" data-mode="pass" title="Pass (ignore)">•</button>
+              <button class="triple-btn off" data-mode="off" title="Turn off">✗</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-buttons">
+        <button class="modal-btn cancel" id="modal-cancel" data-lang="modal.cancel">Cancel</button>
+        <button class="modal-btn save" id="modal-save" data-lang="modal.saveShortcut">Save Shortcut</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <script src="ui/themes.js"></script>
+  <script src="lang/langpack.js"></script>
+  <script src="backend/capture-router.js"></script>
+  <script src="ui/modes.js"></script>
+  <script src="ui/sliders.js"></script>
+  <script src="ui/pill-sliders.js"></script>
+  
+  <script src="backend/connect/config.js"></script>
+  <script src="backend/connect/supabase.js"></script>
+  <script src="backend/connect/auth.js"></script>
+  <script src="backend/connect/premium.js"></script>
+  <script src="backend/connect/payments.js"></script>
+  <script src="ui/premium.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

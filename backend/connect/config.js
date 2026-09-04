@@ -1,0 +1,10 @@
+const VIBES_PRO_CONFIG = {
+  SUPABASE_URL: "https://YOUR-PROJECT.supabase.co",
+  SUPABASE_ANON_KEY: "YOUR-ANON-KEY",
+  GOOGLE_CLIENT_ID: "YOUR-CLIENT-ID.apps.googleusercontent.com",
+  PREMIUM_CACHE_TTL: 36e5,
+  PRICE_AMOUNT: "$6.99",
+  PRICE_PERIOD: "month"
+};
+
+window.VIBES_PRO_CONFIG = VIBES_PRO_CONFIG;

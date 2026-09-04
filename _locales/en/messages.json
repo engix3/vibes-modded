@@ -1,0 +1,10 @@
+{
+   "extDescription": {
+      "description": "Extension description shown in Chrome Web Store",
+      "message": "Pitch shifter, speed controller & reverb for any video or audio. Includes slowed+reverb, nightcore presets & an encouragement crab!"
+   },
+   "extName": {
+      "description": "Extension name shown in Chrome Web Store and extensions page",
+      "message": "Vibes - Pitch Changer, Speed Controls, & Reverb"
+   }
+}
