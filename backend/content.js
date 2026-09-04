@@ -516,7 +516,7 @@
         fastMediaCount: getFastCaptureMediaCount()
       });
     }
-    return true;
+    return false;
   });
   window.__freePitchUpdate = function() {
     findAndProcessMedia();

@@ -85,7 +85,7 @@
         fastSpeedOnlyCount: corsStatus.speedOnlyCount,
         fastFullCount: corsStatus.fullCount
       });
-      return true;
+      return false;
     }
     if (message.type === "UPDATE_SETTINGS" || message.pitch !== undefined || message.speed !== undefined || message.enabled !== undefined) {
       window.dispatchEvent(new CustomEvent("vibes_settingsUpdate", {
@@ -111,12 +111,12 @@
         fastSpeedOnlyCount: corsStatus.speedOnlyCount,
         fastFullCount: corsStatus.fullCount
       });
-      return true;
+      return false;
     }
     sendResponse({
       received: true
     });
-    return true;
+    return false;
   });
   window.addEventListener("vibes_fastCaptureReady", e => {
     log("[Vibes Bridge] Fast Capture ready signal received");

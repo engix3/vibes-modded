@@ -208,7 +208,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
   if (message.type === "UPDATE_BADGE") {
     const tabId = message.tabId || sender.tab?.id;
-    if (!tabId) return;
+    if (!tabId) return false;
     const pitch = message.pitch || 0;
     const enabled = message.enabled;
     if (!enabled || pitch === 0) {
@@ -237,6 +237,19 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         color: "#000000"
       });
     }
+    return false;
+  }
+  if (message.type === "GET_SETTINGS") {
+    const tabId = sender.tab?.id;
+    if (!tabId) {
+      sendResponse({});
+      return false;
+    }
+    const key = `freePitch_tab_${tabId}`;
+    chrome.storage.local.get(key, data => {
+      sendResponse(data[key] || {});
+    });
+    return true;
   }
   if (message.type === "START_TAB_CAPTURE") {
     tabCapture.startTabCapture(message.tabId).then(() => sendResponse({
@@ -316,7 +329,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     });
     return true;
   }
-  return true;
+  return false;
 });
 
 console.log("Vibes background loaded");
