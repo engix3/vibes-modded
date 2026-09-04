@@ -848,7 +848,7 @@
           }
         }
         mediaElement.__vibesMode = "speed-only";
-        const preservePitch = !state.vinylPitchMode;
+        const preservePitch = !state.enabled || !state.vinylPitchMode;
         mediaElement.preservesPitch = preservePitch;
         mediaElement.mozPreservesPitch = preservePitch;
         mediaElement.webkitPreservesPitch = preservePitch;
