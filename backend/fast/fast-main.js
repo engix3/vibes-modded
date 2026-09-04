@@ -1,5 +1,8 @@
 (function() {
   "use strict";
+  if (window.__vibesInterceptorLoaded) {
+    return;
+  }
   const EXCLUDED_SITES = [ "youtube.com", "youtu.be", "chrome.google.com", "chromewebstore.google.com" ];
   const BLOCK_SPEED_RESET_SITES = [ "spotify.com", "pandora.com", "vk.com", "vk.ru" ];
   function isSiteEnabled() {

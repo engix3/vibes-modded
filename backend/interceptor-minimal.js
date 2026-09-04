@@ -1,5 +1,6 @@
 (function() {
   "use strict";
+  if (window.__vibesFastCaptureInjected) return;
   const DEBUG = false;
   const log = DEBUG ? console.log.bind(console) : () => {};
   const startTime = performance.now();
