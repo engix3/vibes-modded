@@ -147,21 +147,5 @@
       }));
     }
   }).catch(() => {});
-  function createMarker() {
-    if (document.getElementById("vibes-fast-capture-active")) {
-      log("[Vibes Bridge] Marker already exists");
-      return;
-    }
-    const marker = document.createElement("div");
-    marker.id = "vibes-fast-capture-active";
-    marker.style.display = "none";
-    marker.setAttribute("data-media-count", "0");
-    (document.body || document.documentElement).appendChild(marker);
-    log("[Vibes Bridge] Fast Capture marker created");
-  }
-  if (document.body || document.documentElement) {
-    createMarker();
-  }
-  document.addEventListener("DOMContentLoaded", createMarker);
   log("[Vibes Bridge] Fast Capture bridge ready");
 })();

@@ -1893,9 +1893,9 @@ tabCaptureUI.onDisabled(async () => {
 function getStreamingPlatform(url) {
   if (!url) return null;
   try {
-    const hostname = new URL(url).hostname;
+    const hostname = new URL(url).hostname.toLowerCase();
     for (const [domain, info] of Object.entries(STREAMING_PLATFORMS)) {
-      if (hostname.includes(domain) || hostname.endsWith(domain)) {
+      if (hostname === domain || hostname.endsWith("." + domain)) {
         return info;
       }
     }

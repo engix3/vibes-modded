@@ -21,7 +21,7 @@
     if (!url) return false;
     try {
       const hostname = new URL(url, window.location.href).hostname.toLowerCase();
-      return hostname.includes("vkuseraudio") || hostname.includes("useraudio") || hostname.includes("vkcdn") || hostname.includes("vk-cdn") || hostname.endsWith(".vk.com") || hostname.endsWith(".vk.ru");
+      return hostname.includes("vkuseraudio") || hostname.includes("useraudio") || hostname.includes("vkcdn") || hostname.includes("vk-cdn");
     } catch {
       return /vkuseraudio|useraudio|vkcdn|vk-cdn/i.test(url);
     }
@@ -57,7 +57,7 @@
   const state = {
     pitch: 0,
     speed: 1,
-    enabled: true,
+    enabled: false,
     vinylPitchMode: false,
     reverbEnabled: false,
     reverbAmount: 50,
@@ -393,10 +393,12 @@
       const now = this.currentTime;
       if (enabled) {
         this._bypassGain.gain.setTargetAtTime(0, now, .02);
+        this._volumeGain.gain.setTargetAtTime(state.volume, now, .02);
         this._updateOutputGain();
       } else {
         this._bypassGain.gain.setTargetAtTime(1, now, .02);
         this._wetGain.gain.setTargetAtTime(0, now, .02);
+        this._volumeGain.gain.setTargetAtTime(1, now, .02);
       }
     }
     _updateOutputGain() {
@@ -507,6 +509,7 @@
     }
   }
   log("[Vibes Fast] AudioContext hook installed");
+  getOrCreateMarker();
   let vibesSpeedActivated = false;
   if (OFFLOAD_AUDIO_PIPELINE_CONTEXT && NativePlaybackRateDescriptor) {
     try {
@@ -613,19 +616,20 @@
     if (settings.speed !== undefined || settings.vinylPitchMode !== undefined) {
       capturedMediaElements.forEach(el => {
         try {
-          const preservePitch = !state.vinylPitchMode;
+          const preservePitch = !state.enabled || !state.vinylPitchMode;
           el.preservesPitch = preservePitch;
           el.mozPreservesPitch = preservePitch;
           el.webkitPreservesPitch = preservePitch;
           if (el.__vibesSpeedControl) {
-            el.__vibesSpeedControl.setSpeed(state.speed);
-            if (state.speed !== 1) {
+            const desiredSpeed = state.enabled ? state.speed : 1;
+            el.__vibesSpeedControl.setSpeed(desiredSpeed);
+            if (desiredSpeed !== 1 && state.enabled) {
               el.__vibesSpeedControl.lock();
             } else {
               el.__vibesSpeedControl.unlock();
             }
           } else {
-            el.playbackRate = state.speed;
+            el.playbackRate = state.enabled ? state.speed : 1;
           }
         } catch (err) {
           console.error("[Vibes Fast] Failed to set playbackRate:", err);
@@ -713,7 +717,22 @@
         signal: controller.signal
       });
       clearTimeout(timeout);
-      return resp.ok || resp.type === "cors";
+      if (resp.ok || resp.type === "cors") return true;
+    } catch {
+    }
+    try {
+      const controller = new AbortController;
+      const timeout = setTimeout(() => controller.abort(), 2e3);
+      const resp = await fetch(url, {
+        method: "GET",
+        headers: {
+          Range: "bytes=0-0"
+        },
+        mode: "cors",
+        signal: controller.signal
+      });
+      clearTimeout(timeout);
+      return resp.ok || resp.status === 206 || resp.type === "cors";
     } catch {
       return false;
     }
@@ -723,19 +742,20 @@
     mediaElement.__vibesSpeedListeners = true;
     const reapplySpeed = () => {
       try {
-        const preservePitch = !state.vinylPitchMode;
+        const preservePitch = !state.enabled || !state.vinylPitchMode;
         mediaElement.preservesPitch = preservePitch;
         mediaElement.mozPreservesPitch = preservePitch;
         mediaElement.webkitPreservesPitch = preservePitch;
       } catch (err) {}
-      if (state.speed !== 1) {
+      const desiredSpeed = state.enabled ? state.speed : 1;
+      if (desiredSpeed !== 1 || mediaElement.playbackRate !== 1) {
         try {
           if (mediaElement.__vibesSpeedControl) {
-            mediaElement.__vibesSpeedControl.setSpeed(state.speed);
+            mediaElement.__vibesSpeedControl.setSpeed(desiredSpeed);
           } else if (NativePlaybackRateDescriptor) {
-            NativePlaybackRateDescriptor.set.call(mediaElement, state.speed);
+            NativePlaybackRateDescriptor.set.call(mediaElement, desiredSpeed);
           }
-          log("[Vibes Fast] Speed re-applied after track change:", state.speed);
+          log("[Vibes Fast] Speed re-applied after track change:", desiredSpeed);
         } catch (err) {}
       }
     };
@@ -764,15 +784,16 @@
     capturedMediaElements.push(mediaElement);
     overridePlaybackRate(mediaElement);
     updateMediaCount();
-    if (state.speed !== 1) {
+    const desiredSpeed = state.enabled ? state.speed : 1;
+    if (desiredSpeed !== 1) {
       if (mediaElement.__vibesSpeedControl) {
-        mediaElement.__vibesSpeedControl.setSpeed(state.speed);
+        mediaElement.__vibesSpeedControl.setSpeed(desiredSpeed);
       } else {
-        mediaElement.playbackRate = state.speed;
+        mediaElement.playbackRate = desiredSpeed;
       }
     }
     mediaElement.__vibesMode = "speed-only";
-    const preservePitch = !state.vinylPitchMode;
+    const preservePitch = !state.enabled || !state.vinylPitchMode;
     mediaElement.preservesPitch = preservePitch;
     mediaElement.mozPreservesPitch = preservePitch;
     mediaElement.webkitPreservesPitch = preservePitch;
@@ -790,8 +811,10 @@
       capturedMediaElements.push(mediaElement);
       overridePlaybackRate(mediaElement);
       updateMediaCount();
-      if (state.speed !== 1) {
+      if (state.enabled && state.speed !== 1) {
         mediaElement.playbackRate = state.speed;
+      } else if (!state.enabled) {
+        mediaElement.playbackRate = 1;
       }
       const resumeContext = () => {
         if (ctx.state === "suspended") {
@@ -801,7 +824,7 @@
       mediaElement.addEventListener("playing", resumeContext);
       mediaElement.addEventListener("play", resumeContext);
       mediaElement.__vibesMode = "full";
-      const preservePitch = !state.vinylPitchMode;
+      const preservePitch = !state.enabled || !state.vinylPitchMode;
       mediaElement.preservesPitch = preservePitch;
       mediaElement.mozPreservesPitch = preservePitch;
       mediaElement.webkitPreservesPitch = preservePitch;
@@ -824,7 +847,7 @@
             NativePlaybackRateDescriptor.set.call(mediaElement, state.speed);
           }
         }
-        mediaElement.__vibesMode = "full";
+        mediaElement.__vibesMode = "speed-only";
         const preservePitch = !state.vinylPitchMode;
         mediaElement.preservesPitch = preservePitch;
         mediaElement.mozPreservesPitch = preservePitch;
@@ -833,7 +856,7 @@
         setupSpeedReapplyListeners(mediaElement);
         updateCorsStatus();
         window.__vibesFastIntercepted = true;
-        log("[Vibes Fast] ✅ Full capture (element pre-connected via site Web Audio)");
+        log("[Vibes Fast] Speed-only capture (element pre-connected via site Web Audio)");
         return true;
       }
       log("[Vibes Fast] Full capture error:", err.name, err.message);
