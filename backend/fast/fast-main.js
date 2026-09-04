@@ -759,14 +759,25 @@
         } catch (err) {}
       }
     };
+    const reapplyAudioSettings = () => {
+      reapplySpeed();
+      state.contexts.forEach(ctx => {
+        try {
+          ctx._applySettings();
+        } catch (err) {
+          log("[Vibes Fast] Could not reapply audio settings after track change:", err.message);
+        }
+      });
+    };
     const reapplyAfterTrackChange = () => {
       if (!isVkSite()) return;
       const source = mediaElement.currentSrc || mediaElement.src || "";
       if (source && mediaElement.__vibesLastCapturedSrc !== source) {
         log("[Vibes Fast] VK source changed — keeping existing audio graph");
         mediaElement.__vibesLastCapturedSrc = source;
+        mediaElement.__vibesCaptureGeneration = (mediaElement.__vibesCaptureGeneration || 0) + 1;
       }
-      reapplySpeed();
+      reapplyAudioSettings();
     };
     [ "loadstart", "loadedmetadata", "durationchange", "canplay", "play", "playing" ].forEach(eventName => {
       mediaElement.addEventListener(eventName, reapplyAfterTrackChange);
@@ -891,6 +902,8 @@
     }
     log("[Vibes Fast] Capturing:", mediaElement.tagName, mediaElement.src?.substring(0, 60));
     capturedMedia.add(mediaElement);
+    const captureGeneration = mediaElement.__vibesCaptureGeneration || 0;
+    const captureSource = mediaElement.currentSrc || mediaElement.src || "";
     setTimeout(async () => {
       let ctx = state.contexts[0];
       if (!ctx) {
@@ -899,7 +912,20 @@
       }
       const crossOrigin = isCrossOrigin(mediaElement);
       const audioSrc = mediaElement.src || mediaElement.currentSrc;
+      const isStaleCapture = () => {
+        const currentSource = mediaElement.currentSrc || mediaElement.src || "";
+        return (mediaElement.__vibesCaptureGeneration || 0) !== captureGeneration || currentSource !== captureSource;
+      };
+      const retryCurrentCapture = () => {
+        capturedMedia.delete(mediaElement);
+        setTimeout(() => captureMediaElement(mediaElement), 0);
+      };
       log("[Vibes Fast] [DIAG] Capture analysis:", "isCrossOrigin=" + crossOrigin, "crossOriginAttr=" + (mediaElement.crossOrigin || "not set"), "src=" + (audioSrc?.substring(0, 80) || "NONE"));
+      if (isStaleCapture()) {
+        log("[Vibes Fast] Skipping stale capture after VK source change");
+        retryCurrentCapture();
+        return;
+      }
       if (isVkSite() && isVkCdnUrl(audioSrc)) {
         log("[Vibes Fast] [DIAG] VK CDN media detected — using speed-only marker so popup can switch to Tab Capture");
         registerSpeedOnlyMode(mediaElement);
@@ -916,6 +942,11 @@
       }
       log("[Vibes Fast] [DIAG] Cross-origin audio — probing CORS before capture...");
       const corsOk = await supportsCors(audioSrc);
+      if (isStaleCapture()) {
+        log("[Vibes Fast] Skipping stale CORS result after VK source change");
+        retryCurrentCapture();
+        return;
+      }
       log("[Vibes Fast] [DIAG] CORS probe result:", corsOk ? "SUPPORTED" : "NOT SUPPORTED");
       if (corsOk) {
         log("[Vibes Fast] [DIAG] CORS supported — setting crossOrigin=anonymous and reloading");
@@ -929,6 +960,11 @@
           });
           setTimeout(resolve, 3e3);
         });
+        if (isStaleCapture()) {
+          log("[Vibes Fast] Skipping stale reload after VK source change");
+          retryCurrentCapture();
+          return;
+        }
         try {
           mediaElement.currentTime = savedTime;
         } catch (e) {}
