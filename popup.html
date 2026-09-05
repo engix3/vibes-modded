@@ -14,9 +14,14 @@
     <span id="notification-pill-text"></span>
   </div>
 
-  <div class="update-banner" id="update-banner" hidden>
-    <span class="update-banner-text" id="update-banner-text"></span>
-    <button class="update-banner-button" id="update-banner-button" type="button">Download</button>
+  <div class="update-overlay" id="update-overlay" hidden>
+    <div class="update-modal" role="dialog" aria-modal="true" aria-labelledby="update-modal-title">
+      <button class="update-modal-close" id="update-modal-close" type="button" aria-label="Close">&times;</button>
+      <div class="update-modal-icon">&#8593;</div>
+      <div class="update-modal-title" id="update-modal-title">Доступно обновление</div>
+      <div class="update-modal-text" id="update-banner-text"></div>
+      <button class="update-modal-button" id="update-banner-button" type="button">Скачать</button>
+    </div>
   </div>
 
   <div class="main-content">

@@ -122,15 +122,21 @@ const notificationPill = document.getElementById("notification-pill");
 
 const notificationPillText = document.getElementById("notification-pill-text");
 
-const updateBanner = document.getElementById("update-banner");
+const updateOverlay = document.getElementById("update-overlay");
 
 const updateBannerText = document.getElementById("update-banner-text");
 
 const updateBannerButton = document.getElementById("update-banner-button");
 
+const updateModalClose = document.getElementById("update-modal-close");
+
 const UPDATE_CHECK_URL = "https://api.github.com/repos/engix3/vibes-modded/releases/latest";
 
 const UPDATE_CHECK_INTERVAL = 6 * 60 * 60 * 1e3;
+
+updateModalClose?.addEventListener("click", () => {
+  if (updateOverlay) updateOverlay.hidden = true;
+});
 
 function compareVersions(left, right) {
   const parse = version => version.replace(/^v/i, "").split(".").map(part => parseInt(part, 10) || 0);
@@ -168,7 +174,7 @@ async function checkForUpdates() {
       });
     }
     const latestVersion = release.tag_name || "";
-    if (!latestVersion || compareVersions(latestVersion, currentVersion) <= 0 || !updateBanner) return;
+    if (!latestVersion || compareVersions(latestVersion, currentVersion) <= 0 || !updateOverlay) return;
     updateBannerText.textContent = `Доступна новая версия ${latestVersion}`;
     updateBannerButton.textContent = "Скачать";
     updateBannerButton.onclick = () => {
@@ -176,7 +182,7 @@ async function checkForUpdates() {
         url: release.html_url || "https://github.com/engix3/vibes-modded/releases"
       });
     };
-    updateBanner.hidden = false;
+    updateOverlay.hidden = false;
   } catch (error) {
     console.debug("Vibes: update check skipped", error);
   }
