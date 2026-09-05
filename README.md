@@ -12,9 +12,9 @@
 
 ## Установка
 
-Самый простой вариант — скачать готовый архив [Vibes Modded 1.0.8](https://github.com/engix3/vibes-modded/releases/download/1.0.8/Vibes.1.0.8.zip). В архиве `manifest.json` находится в корне.
+Самый простой вариант — скачать готовый архив [Vibes Modded 1.0.9](https://github.com/engix3/vibes-modded/releases/download/1.0.9/Vibes.1.0.9.zip). В архиве `manifest.json` находится в корне.
 
-1. Скачайте [Vibes.1.0.8.zip](https://github.com/engix3/vibes-modded/releases/download/1.0.8/Vibes.1.0.8.zip) и распакуйте его в отдельную папку.
+1. Скачайте [Vibes.1.0.9.zip](https://github.com/engix3/vibes-modded/releases/download/1.0.9/Vibes.1.0.9.zip) и распакуйте его в отдельную папку.
 2. Откройте `chrome://extensions` в Chromium, Google Chrome или совместимом браузере.
 3. Включите **Режим разработчика**.
 4. Нажмите **Загрузить распакованное расширение**.

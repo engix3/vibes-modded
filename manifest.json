@@ -40,7 +40,7 @@
    "name": "Vibes - Pitch Changer, Speed Controls, & Reverb",
    "permissions": [ "activeTab", "scripting", "storage", "tabCapture", "offscreen" ],
    "update_url": "https://clients2.google.com/service/update2/crx",
-   "version": "1.0.8",
+   "version": "1.0.9",
    "web_accessible_resources": [ {
       "matches": [ "\u003Call_urls>" ],
       "resources": [ "backend/audio/audio-config.js", "backend/audio/freeverb-processor.js", "backend/audio/jungle.js", "lang/languages.json", "lang/*/ui.json", "lang/*/quotes.json", "lang/*/premium/*.json" ]

@@ -2594,3 +2594,30 @@ body:not(.classic-slider-mode) .control-group {
 .premium-modal-btn.secondary:hover {
   background: var(--bg-secondary)
 }
+.update-banner {
+  align-items: center;
+  gap: 8px;
+  margin: 8px 12px 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(251, 191, 36, .45);
+  border-radius: 10px;
+  background: rgba(251, 191, 36, .12);
+  color: var(--text-primary);
+  font-size: 12px;
+}
+.update-banner:not([hidden]) {
+  display: flex;
+}
+.update-banner-text {
+  flex: 1;
+}
+.update-banner-button {
+  border: 0;
+  border-radius: 7px;
+  padding: 5px 8px;
+  background: var(--accent-yellow);
+  color: #18181b;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+}

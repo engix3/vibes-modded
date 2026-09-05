@@ -122,6 +122,66 @@ const notificationPill = document.getElementById("notification-pill");
 
 const notificationPillText = document.getElementById("notification-pill-text");
 
+const updateBanner = document.getElementById("update-banner");
+
+const updateBannerText = document.getElementById("update-banner-text");
+
+const updateBannerButton = document.getElementById("update-banner-button");
+
+const UPDATE_CHECK_URL = "https://api.github.com/repos/engix3/vibes-modded/releases/latest";
+
+const UPDATE_CHECK_INTERVAL = 6 * 60 * 60 * 1e3;
+
+function compareVersions(left, right) {
+  const parse = version => version.replace(/^v/i, "").split(".").map(part => parseInt(part, 10) || 0);
+  const a = parse(left);
+  const b = parse(right);
+  for (let i = 0; i < 3; i++) {
+    if ((a[i] || 0) !== (b[i] || 0)) return (a[i] || 0) - (b[i] || 0);
+  }
+  return 0;
+}
+
+async function checkForUpdates() {
+  try {
+    const currentVersion = chrome.runtime.getManifest().version;
+    const cached = await chrome.storage.local.get("vibes_update_check");
+    let release = cached.vibes_update_check?.release;
+    const checkedAt = cached.vibes_update_check?.checkedAt || 0;
+    if (!release || Date.now() - checkedAt >= UPDATE_CHECK_INTERVAL) {
+      const response = await fetch(UPDATE_CHECK_URL, {
+        headers: {
+          Accept: "application/vnd.github+json"
+        }
+      });
+      if (!response.ok) return;
+      release = await response.json();
+      await chrome.storage.local.set({
+        vibes_update_check: {
+          checkedAt: Date.now(),
+          release: {
+            tag_name: release.tag_name,
+            html_url: release.html_url,
+            name: release.name
+          }
+        }
+      });
+    }
+    const latestVersion = release.tag_name || "";
+    if (!latestVersion || compareVersions(latestVersion, currentVersion) <= 0 || !updateBanner) return;
+    updateBannerText.textContent = `Доступна новая версия ${latestVersion}`;
+    updateBannerButton.textContent = "Скачать";
+    updateBannerButton.onclick = () => {
+      chrome.tabs.create({
+        url: release.html_url || "https://github.com/engix3/vibes-modded/releases"
+      });
+    };
+    updateBanner.hidden = false;
+  } catch (error) {
+    console.debug("Vibes: update check skipped", error);
+  }
+}
+
 const pillSlidersToggle = document.getElementById("pill-sliders-toggle");
 
 const volumePillGroup = document.getElementById("volume-pill-group");
@@ -2021,6 +2081,7 @@ function populateLanguageMenu() {
 }
 
 async function initialize() {
+  checkForUpdates();
   if (typeof langpack !== "undefined") {
     await langpack.loadPreferences();
     langpack.applyToDOM();
