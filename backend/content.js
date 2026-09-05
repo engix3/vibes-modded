@@ -189,6 +189,7 @@
   }
   const processedElements = new WeakMap;
   let audioContext = null;
+  let audioProcessingUnlocked = false;
   let settings = {
     enabled: false,
     volume: 1,
@@ -204,6 +205,25 @@
     }
     return audioContext;
   }
+  function needsAudioGraph() {
+    return settings.enabled && (settings.pitch !== 0 || settings.reverbEnabled || settings.volume !== 1);
+  }
+  function unlockAudioProcessing() {
+    if (audioProcessingUnlocked) return;
+    audioProcessingUnlocked = true;
+    findAndProcessMedia();
+    if (audioContext?.state === "suspended") {
+      audioContext.resume().catch(() => {});
+    }
+  }
+  [ "pointerdown", "keydown", "touchstart" ].forEach(eventName => {
+    document.addEventListener(eventName, event => {
+      if (event.isTrusted) unlockAudioProcessing();
+    }, {
+      capture: true,
+      once: true
+    });
+  });
   function processMediaElement(element) {
     if (processedElements.has(element)) {
       return processedElements.get(element);
@@ -213,6 +233,16 @@
       const controller = {
         element: element,
         interceptorControlled: true
+      };
+      processedElements.set(element, controller);
+      applySettingsToElement(controller);
+      return controller;
+    }
+    if (!audioProcessingUnlocked || !needsAudioGraph()) {
+      const controller = {
+        element: element,
+        speedOnly: true,
+        deferredAudioGraph: true
       };
       processedElements.set(element, controller);
       applySettingsToElement(controller);
@@ -403,7 +433,13 @@
       if (!processedElements.has(el)) {
         processMediaElement(el);
       } else {
-        applySettingsToElement(processedElements.get(el));
+        const controller = processedElements.get(el);
+        if (controller.deferredAudioGraph && audioProcessingUnlocked && needsAudioGraph()) {
+          processedElements.delete(el);
+          processMediaElement(el);
+        } else {
+          applySettingsToElement(controller);
+        }
       }
     });
     return elements.length;
