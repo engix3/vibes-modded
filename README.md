@@ -12,9 +12,9 @@
 
 ## Установка
 
-Самый простой вариант — скачать готовый архив [Vibes Modded 1.0.9](https://github.com/engix3/vibes-modded/releases/download/1.0.9/Vibes.1.0.9.zip). В архиве `manifest.json` находится в корне.
+Самый простой вариант — скачать готовый архив [Vibes Modded 1.0.10](https://github.com/engix3/vibes-modded/releases/download/1.0.10/Vibes.1.0.10.zip). В архиве `manifest.json` находится в корне.
 
-1. Скачайте [Vibes.1.0.9.zip](https://github.com/engix3/vibes-modded/releases/download/1.0.9/Vibes.1.0.9.zip) и распакуйте его в отдельную папку.
+1. Скачайте [Vibes.1.0.10.zip](https://github.com/engix3/vibes-modded/releases/download/1.0.10/Vibes.1.0.10.zip) и распакуйте его в отдельную папку.
 2. Откройте `chrome://extensions` в Chromium, Google Chrome или совместимом браузере.
 3. Включите **Режим разработчика**.
 4. Нажмите **Загрузить распакованное расширение**.
@@ -40,11 +40,14 @@
 manifest.json       Манифест расширения Chrome Manifest V3
 popup.html/css/js    Интерфейс popup
 background.js        Service worker
+config.js            Общие константы расширения
+offscreen.html       Offscreen-документ для Tab Capture
 backend/             Обработка захвата и аудио
 ui/                  Элементы интерфейса и режимы
 lang/                Локализации и языковые данные
 _locales/            Локализации Chrome
 resources/           Иконки и статические ресурсы
+tests/               Автотесты (`node --test tests/`)
 welcome.html         Приветственная страница
 ```
 
@@ -52,7 +55,13 @@ welcome.html         Приветственная страница
 
 Проект не использует package manager и отдельный build-шаг. Исходники можно изменять напрямую, после чего перезагрузить расширение на странице `chrome://extensions`.
 
-Автоматические тесты не настроены. Для ручной проверки рекомендуется проверить:
+Автоматические тесты запускаются через Node.js без установки зависимостей:
+
+```sh
+node --test tests/
+```
+
+Тесты покрывают жизненный цикл Tab Capture (старт, стоп, мьют таба, очистка ресурсов). Для ручной проверки рекомендуется проверить:
 
 - загрузку расширения через **Загрузить распакованное расширение**;
 - переключение русского языка;
