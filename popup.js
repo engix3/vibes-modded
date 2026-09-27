@@ -2260,20 +2260,12 @@ async function initialize() {
       }
       const liveCorsLimited = captureRouter.isCorsLimited();
       const hasLiveCorsData = fastSpeedOnlyCount + fastFullCount > 0;
-      const vkNeedsTabCapture = isVkSite(tab.url) && fastCaptureActive && fastFullCount === 0;
-      if (vkNeedsTabCapture) {
-        console.log("Vibes: VK detected — using Tab Capture for reliable pitch/reverb", {
-          fastMediaCount,
-          fastSpeedOnlyCount,
-          fastFullCount
-        });
-      }
-      if (hasLiveCorsData && !liveCorsLimited && settings.corsTabCapture && !vkNeedsTabCapture) {
+      if (hasLiveCorsData && !liveCorsLimited && settings.corsTabCapture) {
         console.log("Vibes: Clearing stale corsTabCapture (live: full capture available)");
         settings.corsTabCapture = false;
       }
-      const corsNeedsTabCapture = liveCorsLimited || vkNeedsTabCapture || !hasLiveCorsData && settings.corsTabCapture;
-      if (corsNeedsTabCapture && modesUI.isAlwaysTabEnabled() && modesUI._tabCaptureAvailable && !captureRouter.isMode(CaptureMode.TAB_CAPTURE)) {
+      const corsNeedsTabCapture = liveCorsLimited || !hasLiveCorsData && settings.corsTabCapture;
+      if (settings.enabled && corsNeedsTabCapture && modesUI.isAlwaysTabEnabled() && modesUI._tabCaptureAvailable && !captureRouter.isMode(CaptureMode.TAB_CAPTURE)) {
         console.log("Vibes: CORS-limited tab detected, auto-starting Tab Capture", {
           fromStorage: settings.corsTabCapture,
           liveDetection: liveCorsLimited,

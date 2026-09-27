@@ -110,6 +110,7 @@
       mod4.start(t2);
       fade1.start(t);
       fade2.start(t2);
+      this._sources = [ mod1, mod2, mod3, mod4, fade1, fade2 ];
       this.setDelay(DELAY_TIME);
     }
     setDelay(d) {
@@ -136,6 +137,16 @@
     setSemitones(semitones) {
       const clamped = Math.max(-MAX_SEMITONES, Math.min(MAX_SEMITONES, semitones));
       this.setPitchOffset(clamped / MAX_SEMITONES);
+    }
+    dispose() {
+      for (const src of this._sources || []) {
+        try { src.stop(); } catch (err) {}
+        try { src.disconnect(); } catch (err) {}
+      }
+      this._sources = [];
+      for (const node of [ this.input, this.output, this.mod1Gain, this.mod2Gain, this.mod3Gain, this.mod4Gain ]) {
+        try { node?.disconnect(); } catch (err) {}
+      }
     }
   }
   window.__vibesJungle = Jungle;

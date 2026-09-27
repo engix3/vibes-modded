@@ -142,8 +142,15 @@
   }).then(settings => {
     if (settings && (settings.pitch !== undefined || settings.enabled !== undefined)) {
       log("[Vibes Bridge] Got initial settings:", settings);
+      // Background storage keeps popup units (speed/volume are 100-based
+      // percents), while fast-main state uses ratios. Convert here so a
+      // restored volume of 100 doesn't become a 100x gain (and speed 100
+      // doesn't hit `playbackRate`, whose max is far below that).
+      const detail = { ...settings };
+      if (typeof detail.speed === "number") detail.speed = detail.speed / 100;
+      if (typeof detail.volume === "number") detail.volume = detail.volume / 100;
       window.dispatchEvent(new CustomEvent("vibes_settingsUpdate", {
-        detail: settings
+        detail
       }));
     }
   }).catch(() => {});

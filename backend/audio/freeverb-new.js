@@ -147,6 +147,15 @@ class Freeverb {
   disconnect() {
     this.output.disconnect();
   }
+  dispose() {
+    try { this._workletNode?.port.close(); } catch (err) {}
+    for (const node of [ this.input, this.output, this.wetGain, this.dryGain, this._workletNode ]) {
+      try { node?.disconnect(); } catch (err) {}
+    }
+    this._pendingMessages = [];
+    this._workletNode = null;
+    this._workletReady = false;
+  }
 }
 
 window.Freeverb = Freeverb;

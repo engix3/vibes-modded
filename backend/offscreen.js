@@ -1,217 +1,115 @@
-const delayTime = .1;
-
-const fadeTime = .05;
-
-const bufferTime = .1;
-
-function createFadeBuffer(context, activeTime, fadeTime) {
-  const length1 = activeTime * context.sampleRate;
-  const length2 = (activeTime - 2 * fadeTime) * context.sampleRate;
-  const length = length1 + length2;
-  const buffer = context.createBuffer(1, length, context.sampleRate);
-  const p = buffer.getChannelData(0);
-  const fadeLength = fadeTime * context.sampleRate;
-  const fadeIndex1 = fadeLength;
-  const fadeIndex2 = length1 - fadeLength;
-  for (let i = 0; i < length1; ++i) {
-    let value;
-    if (i < fadeIndex1) {
-      value = Math.sqrt(i / fadeLength);
-    } else if (i >= fadeIndex2) {
-      value = Math.sqrt(1 - (i - fadeIndex2) / fadeLength);
-    } else {
-      value = 1;
-    }
-    p[i] = value;
-  }
-  for (let i = length1; i < length; ++i) {
-    p[i] = 0;
-  }
-  return buffer;
-}
-
-function createDelayTimeBuffer(context, activeTime, fadeTime, shiftUp) {
-  const length1 = activeTime * context.sampleRate;
-  const length2 = (activeTime - 2 * fadeTime) * context.sampleRate;
-  const length = length1 + length2;
-  const buffer = context.createBuffer(1, length, context.sampleRate);
-  const p = buffer.getChannelData(0);
-  for (let i = 0; i < length1; ++i) {
-    p[i] = shiftUp ? (length1 - i) / length : i / length1;
-  }
-  for (let i = length1; i < length; ++i) {
-    p[i] = 0;
-  }
-  return buffer;
-}
-
-class Jungle {
-  constructor(context) {
-    this.context = context;
-    this.input = context.createGain();
-    this.output = context.createGain();
-    const mod1 = context.createBufferSource();
-    const mod2 = context.createBufferSource();
-    const mod3 = context.createBufferSource();
-    const mod4 = context.createBufferSource();
-    const shiftDownBuffer = createDelayTimeBuffer(context, bufferTime, fadeTime, false);
-    const shiftUpBuffer = createDelayTimeBuffer(context, bufferTime, fadeTime, true);
-    mod1.buffer = shiftDownBuffer;
-    mod2.buffer = shiftDownBuffer;
-    mod3.buffer = shiftUpBuffer;
-    mod4.buffer = shiftUpBuffer;
-    mod1.loop = mod2.loop = mod3.loop = mod4.loop = true;
-    this.mod1Gain = context.createGain();
-    this.mod2Gain = context.createGain();
-    this.mod3Gain = context.createGain();
-    this.mod4Gain = context.createGain();
-    this.mod3Gain.gain.value = 0;
-    this.mod4Gain.gain.value = 0;
-    mod1.connect(this.mod1Gain);
-    mod2.connect(this.mod2Gain);
-    mod3.connect(this.mod3Gain);
-    mod4.connect(this.mod4Gain);
-    const fade1 = context.createBufferSource();
-    const fade2 = context.createBufferSource();
-    const fadeBuffer = createFadeBuffer(context, bufferTime, fadeTime);
-    fade1.buffer = fadeBuffer;
-    fade2.buffer = fadeBuffer;
-    fade1.loop = fade2.loop = true;
-    const mix1 = context.createGain();
-    const mix2 = context.createGain();
-    mix1.gain.value = 0;
-    mix2.gain.value = 0;
-    fade1.connect(mix1.gain);
-    fade2.connect(mix2.gain);
-    const delay1 = context.createDelay();
-    const delay2 = context.createDelay();
-    this.mod1Gain.connect(delay1.delayTime);
-    this.mod2Gain.connect(delay2.delayTime);
-    this.mod3Gain.connect(delay1.delayTime);
-    this.mod4Gain.connect(delay2.delayTime);
-    this.input.connect(delay1);
-    this.input.connect(delay2);
-    delay1.connect(mix1);
-    delay2.connect(mix2);
-    mix1.connect(this.output);
-    mix2.connect(this.output);
-    const t = context.currentTime + .05;
-    const t2 = t + bufferTime - fadeTime;
-    mod1.start(t);
-    mod2.start(t2);
-    mod3.start(t);
-    mod4.start(t2);
-    fade1.start(t);
-    fade2.start(t2);
-    this.setDelay(delayTime);
-  }
-  setDelay(d) {
-    this.mod1Gain.gain.setTargetAtTime(.5 * d, 0, .01);
-    this.mod2Gain.gain.setTargetAtTime(.5 * d, 0, .01);
-    this.mod3Gain.gain.setTargetAtTime(.5 * d, 0, .01);
-    this.mod4Gain.gain.setTargetAtTime(.5 * d, 0, .01);
-  }
-  setPitchOffset(mult) {
-    if (mult > 0) {
-      this.mod1Gain.gain.setTargetAtTime(0, 0, .01);
-      this.mod2Gain.gain.setTargetAtTime(0, 0, .01);
-      this.mod3Gain.gain.setTargetAtTime(.5 * delayTime * mult, 0, .01);
-      this.mod4Gain.gain.setTargetAtTime(.5 * delayTime * mult, 0, .01);
-    } else {
-      this.mod1Gain.gain.setTargetAtTime(.5 * delayTime * Math.abs(mult), 0, .01);
-      this.mod2Gain.gain.setTargetAtTime(.5 * delayTime * Math.abs(mult), 0, .01);
-      this.mod3Gain.gain.setTargetAtTime(0, 0, .01);
-      this.mod4Gain.gain.setTargetAtTime(0, 0, .01);
-    }
-  }
-  setSemitones(semitones) {
-    const clampedSemitones = Math.max(-12, Math.min(12, semitones));
-    const offset = clampedSemitones / 12;
-    this.setPitchOffset(offset);
-  }
-}
-
-let audioContext = null;
-
-let activeProcessors = new Map;
+const Jungle = window.__vibesJungle;
+const pendingProcessors = new Map;
+const activeProcessors = new Map;
+const captureCommands = new Set([
+  "OFFSCREEN_START_CAPTURE",
+  "OFFSCREEN_STOP_CAPTURE",
+  "OFFSCREEN_UPDATE_SETTINGS",
+  "OFFSCREEN_GET_CAPTURE_STATUS"
+]);
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === "OFFSCREEN_START_CAPTURE") {
-    startProcessing(message.streamId, message.tabId).then(() => sendResponse({
-      success: true
-    })).catch(e => {
-      console.error("Offscreen: Start processing failed", e);
-      sendResponse({
-        success: false,
-        error: e.message
-      });
-    });
-    return true;
+  if (!captureCommands.has(message?.type)) return false;
+  if (sender?.id !== chrome.runtime.id || sender.tab ||
+      typeof sender.url !== "string" || !sender.url.startsWith(chrome.runtime.getURL(""))) {
+    return false;
   }
-  if (message.type === "OFFSCREEN_STOP_CAPTURE") {
-    stopProcessing(message.tabId);
+  if (!Number.isSafeInteger(message.tabId) || message.tabId < 0) {
+    sendResponse({ success: false, error: "Invalid tab ID" });
+    return false;
+  }
+  if (message.type === "OFFSCREEN_GET_CAPTURE_STATUS") {
+    const active = activeProcessors.get(message.tabId);
+    const pending = pendingProcessors.get(message.tabId);
+    const processor = active || pending;
     sendResponse({
-      success: true
+      success: true,
+      active: !!active,
+      pending: !!pending,
+      captureId: processor?.captureId || null,
+      streamId: processor?.streamId || null
     });
+    return false;
   }
   if (message.type === "OFFSCREEN_UPDATE_SETTINGS") {
-    updateSettings(message.tabId, message.settings);
-    sendResponse({
-      success: true
-    });
+    try {
+      sendResponse({ success: updateSettings(message.tabId, message.settings) });
+    } catch (error) {
+      sendResponse({ success: false, error: error.message });
+    }
+    return false;
   }
+  if (typeof message.captureId !== "string" || !message.captureId ||
+      (message.type === "OFFSCREEN_START_CAPTURE" &&
+       (typeof message.streamId !== "string" || !message.streamId))) {
+    sendResponse({ success: false, error: "Invalid capture token or stream ID" });
+    return false;
+  }
+  const result = message.type === "OFFSCREEN_START_CAPTURE"
+    ? startProcessing(message.streamId, message.tabId, message.captureId)
+    : stopProcessing(message.tabId, message.captureId).then(success => ({ success }));
+  result.then(sendResponse).catch(error => {
+    sendResponse({ success: false, error: error.message });
+  });
   return true;
 });
 
-async function startProcessing(streamId, tabId) {
-  console.log("Offscreen: Starting processing for tab", tabId);
-  const stream = await navigator.mediaDevices.getUserMedia({
-    audio: {
-      mandatory: {
-        chromeMediaSource: "tab",
-        chromeMediaSourceId: streamId
-      }
-    },
-    video: false
-  });
-  audioContext = audioContext || new AudioContext;
-  if (audioContext.state === "suspended") {
-    await audioContext.resume();
+function ownsProcessor(processor) {
+  return !processor.canceled && (pendingProcessors.get(processor.tabId) === processor ||
+    activeProcessors.get(processor.tabId) === processor);
+}
+
+function removeProcessor(processor) {
+  processor.canceled = true;
+  if (pendingProcessors.get(processor.tabId) === processor) pendingProcessors.delete(processor.tabId);
+  if (activeProcessors.get(processor.tabId) === processor) activeProcessors.delete(processor.tabId);
+}
+
+function cleanupProcessor(processor) {
+  const release = action => {
+    try {
+      action();
+    } catch (error) {
+      console.warn("Offscreen: Resource cleanup failed", error);
+    }
+  };
+  for (const [track, listener] of processor.trackListeners.splice(0)) {
+    release(() => track.removeEventListener("ended", listener));
   }
-  const source = audioContext.createMediaStreamSource(stream);
-  const splitter = audioContext.createChannelSplitter(2);
-  const merger = audioContext.createChannelMerger(2);
-  const jungleL = new Jungle(audioContext);
-  const jungleR = new Jungle(audioContext);
-  const reverb = new Freeverb(audioContext);
-  const bypassGain = audioContext.createGain();
-  bypassGain.gain.value = 1;
-  const processedGain = audioContext.createGain();
-  processedGain.gain.value = 0;
-  const volumeGain = audioContext.createGain();
-  volumeGain.gain.value = 1;
-  source.connect(splitter);
-  source.connect(bypassGain);
-  bypassGain.connect(volumeGain);
-  splitter.connect(jungleL.input, 0);
-  jungleL.output.connect(merger, 0, 0);
-  splitter.connect(jungleR.input, 1);
-  jungleR.output.connect(merger, 0, 1);
-  merger.connect(reverb.input);
-  reverb.output.connect(processedGain);
-  processedGain.connect(volumeGain);
-  volumeGain.connect(audioContext.destination);
-  activeProcessors.set(tabId, {
-    source: source,
-    stream: stream,
-    splitter: splitter,
-    merger: merger,
-    jungleL: jungleL,
-    jungleR: jungleR,
-    reverb: reverb,
-    bypassGain: bypassGain,
-    processedGain: processedGain,
-    volumeGain: volumeGain,
+  if (processor.stream) {
+    const stream = processor.stream;
+    processor.stream = null;
+    for (const track of stream.getTracks()) release(() => track.stop());
+  }
+  for (const node of processor.nodes.splice(0)) release(() => node.disconnect());
+  for (const dsp of processor.disposables.splice(0)) release(() => dsp.dispose?.());
+  if (processor.audioContext) {
+    const context = processor.audioContext;
+    processor.audioContext = null;
+    // Closing a context releases even nodes allocated by a failed DSP constructor.
+    processor.closePromise = Promise.resolve().then(() => context.close()).catch(error => {
+      console.warn("Offscreen: Audio context cleanup failed", error);
+    });
+  }
+  // A canceled getUserMedia may acquire its stream later; subsequent cleanup drains it too.
+  return processor.closePromise || Promise.resolve();
+}
+
+function startProcessing(streamId, tabId, captureId) {
+  const active = activeProcessors.get(tabId);
+  if (active) return Promise.resolve({ success: true, streamId: active.streamId, captureId: active.captureId });
+  const pending = pendingProcessors.get(tabId);
+  if (pending) return pending.promise;
+  const processor = {
+    tabId,
+    streamId,
+    captureId,
+    canceled: false,
+    stream: null,
+    audioContext: null,
+    nodes: [],
+    disposables: [],
+    trackListeners: [],
     settings: {
       enabled: true,
       volume: 1,
@@ -221,29 +119,97 @@ async function startProcessing(streamId, tabId) {
       reverbEnabled: false,
       reverbAmount: 50
     }
+  };
+  pendingProcessors.set(tabId, processor);
+  const assertOwner = () => {
+    if (!ownsProcessor(processor)) throw new Error("Capture start canceled");
+  };
+  processor.promise = Promise.resolve().then(async () => {
+    try {
+      assertOwner();
+      if (typeof Jungle !== "function" || typeof Freeverb !== "function") {
+        throw new Error("DSP classes are not loaded in the offscreen document");
+      }
+      processor.stream = await navigator.mediaDevices.getUserMedia({
+        audio: { mandatory: { chromeMediaSource: "tab", chromeMediaSourceId: streamId } },
+        video: false
+      });
+      assertOwner();
+      for (const track of processor.stream.getTracks()) {
+        const listener = () => { void stopProcessing(tabId, captureId); };
+        track.addEventListener("ended", listener);
+        processor.trackListeners.push([track, listener]);
+        if (track.readyState === "ended") throw new Error("Capture track already ended");
+      }
+      const audioContext = processor.audioContext = new AudioContext;
+      if (audioContext.state === "suspended") {
+        await audioContext.resume();
+        assertOwner();
+      }
+      const node = value => {
+        processor.nodes.push(value);
+        return value;
+      };
+      const dsp = value => {
+        processor.disposables.push(value);
+        return value;
+      };
+      const source = processor.source = node(audioContext.createMediaStreamSource(processor.stream));
+      const upmix = processor.upmix = node(audioContext.createGain());
+      upmix.channelCount = 2;
+      upmix.channelCountMode = "explicit";
+      upmix.channelInterpretation = "speakers";
+      const splitter = processor.splitter = node(audioContext.createChannelSplitter(2));
+      const merger = processor.merger = node(audioContext.createChannelMerger(2));
+      const jungleL = processor.jungleL = dsp(new Jungle(audioContext));
+      const jungleR = processor.jungleR = dsp(new Jungle(audioContext));
+      const reverb = processor.reverb = dsp(new Freeverb(audioContext));
+      const bypassGain = processor.bypassGain = node(audioContext.createGain());
+      bypassGain.gain.value = 1;
+      const processedGain = processor.processedGain = node(audioContext.createGain());
+      processedGain.gain.value = 0;
+      const volumeGain = processor.volumeGain = node(audioContext.createGain());
+      volumeGain.gain.value = 1;
+      source.connect(upmix);
+      upmix.connect(splitter);
+      source.connect(bypassGain);
+      bypassGain.connect(volumeGain);
+      splitter.connect(jungleL.input, 0);
+      jungleL.output.connect(merger, 0, 0);
+      splitter.connect(jungleR.input, 1);
+      jungleR.output.connect(merger, 0, 1);
+      merger.connect(reverb.input);
+      reverb.output.connect(processedGain);
+      processedGain.connect(volumeGain);
+      volumeGain.connect(audioContext.destination);
+      assertOwner();
+      pendingProcessors.delete(tabId);
+      activeProcessors.set(tabId, processor);
+      return { success: true, streamId, captureId };
+    } catch (error) {
+      removeProcessor(processor);
+      await cleanupProcessor(processor);
+      throw error;
+    }
   });
-  console.log("Offscreen: Processing started for tab", tabId);
+  return processor.promise;
 }
 
 function updateSettings(tabId, settings) {
   const processor = activeProcessors.get(tabId);
-  if (!processor) {
-    console.warn("Offscreen: No processor for tab", tabId);
-    return;
-  }
+  if (!processor) return false;
   Object.assign(processor.settings, settings);
-  const {jungleL: jungleL, jungleR: jungleR, reverb: reverb, bypassGain: bypassGain, processedGain: processedGain, volumeGain: volumeGain} = processor;
-  const {enabled: enabled, volume: volume, pitch: pitch, reverbEnabled: reverbEnabled, reverbAmount: reverbAmount} = processor.settings;
+  const {audioContext, jungleL, jungleR, reverb, bypassGain, processedGain, volumeGain} = processor;
+  const {enabled, volume, pitch, reverbEnabled, reverbAmount} = processor.settings;
+  const now = audioContext.currentTime;
   if (!enabled) {
-    const now = audioContext.currentTime;
     bypassGain.gain.setTargetAtTime(1, now, .02);
     processedGain.gain.setTargetAtTime(0, now, .02);
     if (volumeGain) volumeGain.gain.setTargetAtTime(1, now, .02);
     reverb.setEnabled(false);
-    return;
+    return true;
   }
   const shouldProcess = pitch !== 0 || reverbEnabled;
-  const now = audioContext.currentTime;
   if (shouldProcess) {
     const hasPitch = pitch !== 0;
     const gain = hasPitch && reverbEnabled ? MAKEUP_GAIN_PLUS_REVERB : hasPitch ? MAKEUP_GAIN : 1;
@@ -257,20 +223,16 @@ function updateSettings(tabId, settings) {
   jungleR.setSemitones(pitch);
   reverb.setEnabled(reverbEnabled);
   reverb.setAmount(reverbAmount);
-  if (volumeGain) {
-    volumeGain.gain.setTargetAtTime(volume ?? 1, now, .02);
-  }
-  console.log("Offscreen: Settings updated for tab", tabId, processor.settings);
+  if (volumeGain) volumeGain.gain.setTargetAtTime(volume ?? 1, now, .02);
+  return true;
 }
 
-function stopProcessing(tabId) {
-  const processor = activeProcessors.get(tabId);
-  if (processor) {
-    console.log("Offscreen: Stopping processing for tab", tabId);
-    processor.stream.getTracks().forEach(track => track.stop());
-    processor.source.disconnect();
-    activeProcessors.delete(tabId);
-  }
+async function stopProcessing(tabId, captureId) {
+  const processor = pendingProcessors.get(tabId) || activeProcessors.get(tabId);
+  if (!processor || processor.captureId !== captureId) return false;
+  removeProcessor(processor);
+  await cleanupProcessor(processor);
+  return true;
 }
 
 console.log("Offscreen: Audio processor loaded");
